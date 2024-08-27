@@ -1,0 +1,68 @@
+﻿Reusable Part:
+  Name:               CT2TAG
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Multilingual Details:
+  - ENG:
+      Description:        "TAG"
+
+  - FRA:
+      Description:        "TAG"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(70) Left(0) Tabposition(1) Top(0) Width(150) Layoutmanager(#Layout1) Visible(False)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#Layout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Layout1Row1) Displayposition(1) Parent(#Layout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Layout1Column1) Displayposition(1) Parent(#Layout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Layout1Item1) Alignment(TopCenter) Column(#Layout1Column1) Parent(#Layout1) Row(#Layout1Row1) Manage(#Tag)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Layout1Item2) Alignment(TopCenter) Column(#Layout1Column1) Manage(#LabelMessage) Parent(#Layout1) Row(#Layout1Row1) Marginbottom(8) Marginleft(8) Marginright(15) Margintop(8)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#Tag) Displayposition(2) Image(#CT2IMGTag) Parent(#COM_OWNER) Tabposition(1) Width(150) Left(0) Height(70) Top(0) Imagesizing(FitBoth)
+    Define_Com Class(#prim_md.Label) Name(#LabelMessage) Parent(#COM_OWNER) Displayposition(1) Tabposition(2) Height(54) Left(8) Top(8) Width(127) Themedrawstyle('ForegroundMediumSuccess') Wordwrap(True) Captionalignment(Center)
+    
+    
+    Mthroutine Name(ShowMessage)
+    Define_Map For(*INPUT) Class(#PRIM_STR) Name(#Message) Desc('Message')
+    Define_Map For(*INPUT) Class(#Prim_str) Name(#MessageType) Mandatory('ERROR') Desc('Message state: Ok, Error or Warning')
+    Define_Map For(*INPUT) Class(#prim_nmbr) Name(#FadeIn) Mandatory(300) Desc('Fade In milliseconds')
+    Define_Map For(*INPUT) Class(#prim_nmbr) Name(#Delay) Mandatory(0) Desc('Delay milliseconds')
+    #LabelMessage := #Message
+    
+    Case (#MessageType.UpperCase)
+    
+    When (= 'ERROR' = ER)
+    
+    #LabelMessage.ThemeDrawStyle := 'ForegroundMediumError+Subheading'
+    
+    When (= 'WARNING' = WN)
+    
+    #LabelMessage.ThemeDrawStyle := 'ForegroundMediumAccent+Subheading'
+    
+    When (= 'OK')
+    
+    #LabelMessage.ThemeDrawStyle := 'ForegroundMediumSuccess+Subheading'
+    
+    Otherwise
+    
+    #LabelMessage.ThemeDrawStyle := 'ForegroundTheme+Subheading'
+    
+    Endcase
+    
+    
+    #COM_OWNER.FadeIn( #FadeIn #Delay )
+    
+    Endroutine
+    
+    
+    Mthroutine Name(HideMessage)
+    Define_Map For(*INPUT) Class(#prim_nmbr) Name(#FadeOut) Mandatory(300) Desc('Fade out milliseconds')
+    Define_Map For(*INPUT) Class(#prim_nmbr) Name(#Delay) Mandatory(0) Desc('Delay milliseconds')
+    
+    #COM_OWNER.FadeOut( #FadeOut #Delay False )
+    
+    Endroutine
+    
+    End_Com

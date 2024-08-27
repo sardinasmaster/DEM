@@ -1,0 +1,78 @@
+﻿Web View:
+  Name:               CT2ABOUT
+  Enabled For RDMLX:  Yes
+
+  Multilingual Details:
+  - ENG:
+      Description:        "About"
+
+  - FRA:
+      Description:        "About"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_VIEW) Displayposition(1) Tabposition(1) Layoutmanager(#LayoutMain) Width(1025) Height(609)
+    
+    
+    Define_Com Class(#Prim_vs.Style) Name(#OpacityStyle) Backgroundbrush(#BackgroundBrushOpacity)
+    Define_Com Class(#Prim_vs.SolidBrush) Name(#BackgroundBrushOpacity) Color(0:0:0) Opacity(25)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Background) Backgroundbrush(#BackgroundBrush)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#BackgroundBrush) Image(#xImagePeople) Tile(Tile)
+    
+    * Layout Main
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainRow1) Displayposition(1) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainColumn1) Displayposition(1) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem1) Alignment(TopCenter) Column(#LayoutMainColumn1) Manage(#PanelBackground) Parent(#LayoutMain) Row(#LayoutMainRow1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem2) Alignment(TopCenter) Column(#LayoutMainColumn1) Manage(#PanelAbout) Parent(#LayoutMain) Row(#LayoutMainRow1)
+    
+    * Layout Content Panel
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutBasePanel)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutBasePanelColumn1) Displayposition(1) Parent(#LayoutBasePanel)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutBasePanelRow1) Displayposition(1) Parent(#LayoutBasePanel) Units(Content) Height(143)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutBasePanelRow2) Displayposition(2) Parent(#LayoutBasePanel) Height(266) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutBasePanelRow3) Displayposition(3) Parent(#LayoutBasePanel) Units(Content) Height(281)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutBasePanelRow4) Displayposition(4) Parent(#LayoutBasePanel) Units(Content) Height(425)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutBasePanelRow5) Displayposition(5) Parent(#LayoutBasePanel) Height(289) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutBasePanelItem1) Alignment(TopCenter) Column(#LayoutBasePanelColumn1) Manage(#PanelWhatWeDo) Parent(#LayoutBasePanel) Row(#LayoutBasePanelRow3) Sizing(ContentHeightFitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutBasePanelItem2) Alignment(TopCenter) Column(#LayoutBasePanelColumn1) Manage(#PanelWhoAreWe) Parent(#LayoutBasePanel) Row(#LayoutBasePanelRow2) Sizing(ContentHeightFitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutBasePanelItem3) Alignment(TopCenter) Column(#LayoutBasePanelColumn1) Manage(#PanelOurMission) Parent(#LayoutBasePanel) Row(#LayoutBasePanelRow4) Sizing(ContentHeightFitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutBasePanelItem4) Alignment(TopCenter) Column(#LayoutBasePanelColumn1) Manage(#TextHeading) Parent(#LayoutBasePanel) Row(#LayoutBasePanelRow1) Sizing(ContentHeightFitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutBasePanelItem5) Manage(#PanelHowCanWeHelp) Parent(#LayoutBasePanel) Row(#LayoutBasePanelRow5) Column(#LayoutBasePanelColumn1) Sizing(ContentHeightFitToWidth)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutPanelDetails)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutPanelDetailsColumn1) Displayposition(1) Parent(#LayoutPanelDetails) Minwidth(16)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutPanelDetailsColumn2) Displayposition(2) Parent(#LayoutPanelDetails) Width(20) Minwidth(260) Maxwidth(800)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutPanelDetailsColumn3) Displayposition(3) Parent(#LayoutPanelDetails) Minwidth(16)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelDetailsRow1) Displayposition(1) Parent(#LayoutPanelDetails) Height(289) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Layout2Item1) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#TextWhoAreWeHeading) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Layout2Item2) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#TextWhoAreWe) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelDetailsItem1) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#Text3) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelDetailsItem2) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#Text2) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelDetailsItem3) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#Text6) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelDetailsItem4) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#Text5) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelDetailsItem5) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#Text4) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelDetailsItem6) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#Text9) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelDetailsItem7) Alignment(TopCenter) Column(#LayoutPanelDetailsColumn2) Manage(#Text8) Parent(#LayoutPanelDetails) Row(#LayoutPanelDetailsRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    
+    * Panels, Heading and Details
+    Define_Com Class(#PRIM_PANL) Name(#PanelBackground) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Height(609) Width(1025) Style(#Background)
+    Define_Com Class(#PRIM_PANL) Name(#PanelAbout) Parent(#COM_OWNER) Displayposition(1) Tabposition(2) Height(609) Left(0) Top(0) Width(1025) Layoutmanager(#LayoutBasePanel) Verticalscroll(True)
+    Define_Com Class(#PRIM_PANL) Name(#PanelWhatWeDo) Displayposition(1) Height(281) Left(0) Parent(#PanelAbout) Tabposition(3) Tabstop(False) Top(409) Width(1007) Themedrawstyle('Text(255,255,255,1)') Layoutmanager(#LayoutPanelDetails) Style(#OpacityStyle)
+    Define_Com Class(#PRIM_PANL) Name(#PanelWhoAreWe) Displayposition(2) Height(266) Left(0) Parent(#PanelAbout) Tabposition(2) Tabstop(False) Top(143) Width(1007) Themedrawstyle('DarkTitle+Card') Layoutmanager(#LayoutPanelDetails) Verticalscroll(True)
+    Define_Com Class(#PRIM_PANL) Name(#PanelOurMission) Displayposition(3) Height(425) Left(0) Parent(#PanelAbout) Tabposition(1) Tabstop(False) Top(690) Width(1007) Themedrawstyle('DarkTitle+Card') Layoutmanager(#LayoutPanelDetails)
+    Define_Com Class(#PRIM_PANL) Name(#PanelHowCanWeHelp) Parent(#PanelAbout) Displayposition(5) Tabposition(5) Left(0) Top(1115) Width(1007) Height(289) Themedrawstyle('Back(120,120,120,1)') Layoutmanager(#LayoutPanelDetails)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextWhoAreWeHeading) Caption('Who are we?') Displayposition(1) Height(115) Left(103) Parent(#PanelWhoAreWe) Tabposition(1) Themedrawstyle('Title+ForegroundSecondary') Top(0) Width(800) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Captionmargintop(0) Paddingbottom(24) Paddingtop(48) Captionalignment(Center)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextWhoAreWe) Caption('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dictum nisi eu euismod eleifend. Suspendisse nec risus eu sapien lacinia rhoncus. In quis felis pretium, imperdiet mi sit amet, vehicula nisl. Donec bibendum vel lectus ut lacinia. Quisque arcu dui, tempor id eros ut, elementum aliquam arcu. Nulla facilisi. Etiam bibendum mauris sed arcu malesuada elementum. Nulla ornare leo vel dui blandit posuere. Maecenas congue magna eget ipsum congue viverra. In leo augue, malesuada eu arcu non, rhoncus tincidunt nisi. Donec sit amet ultrices nisl. Quisque efficitur ullamcorper purus non convallis. Maecenas nec sodales est. Etiam et est ullamcorper, suscipit eros blandit, bibendum magna. Phasellus lacinia varius consequat.') Displayposition(2) Left(103) Parent(#PanelWhoAreWe) Tabposition(2) Themedrawstyle('ForegroundSecondary') Top(115) Width(800) Height(149) Wordwrap(True) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Captionmargintop(0) Paddingbottom(48)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text2) Caption('What we do') Displayposition(1) Left(104) Parent(#PanelWhatWeDo) Tabposition(1) Themedrawstyle('Title') Top(0) Width(800) Height(115) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Captionmargintop(0) Paddingbottom(24) Paddingtop(48) Captionalignment(Center)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text3) Caption('Nulla dignissim lacus sit amet faucibus pulvinar. Aliquam erat volutpat. Phasellus at tellus tortor. Quisque ut metus non nisi scelerisque pellentesque ut eu massa. Maecenas luctus commodo nisl, non imperdiet sem dapibus vitae. Morbi ac turpis vel nunc feugiat volutpat. Quisque tincidunt ipsum justo, vel lacinia nisi egestas egestas. Vestibulum justo risus, tempor vitae mauris non, iaculis convallis lacus. Morbi vel est eget tortor consequat suscipit. Ut accumsan, purus eget dapibus vestibulum, diam lacus pretium nunc, sit amet vehicula dui ipsum et leo. Vestibulum quis dictum ligula. Nulla mattis diam eget massa pharetra iaculis. Sed ornare, dui aliquam molestie consequat, enim urna elementum lacus, eu gravida magna turpis eget lectus. Phasellus et varius mi. Maecenas viverra justo eget magna tristique, ut consectetur libero tempor. Morbi at odio ac velit elementum.') Displayposition(2) Left(104) Parent(#PanelWhatWeDo) Tabposition(2) Top(115) Width(800) Height(166) Wordwrap(True) Captionmarginbottom(0) Captionmargintop(0) Captionmarginleft(0) Captionmarginright(0) Paddingbottom(48)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text4) Caption('Our Mission') Displayposition(1) Left(103) Parent(#PanelOurMission) Tabposition(2) Themedrawstyle('Title+ForegroundSecondary') Top(0) Width(800) Height(115) Captionmarginleft(0) Captionmarginright(0) Captionmarginbottom(0) Captionmargintop(0) Paddingbottom(24) Paddingtop(48) Captionalignment(Center)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text5) Caption('Phasellus aliquet at nulla et condimentum. Integer eget nisi in est varius consequat. Praesent felis risus, blandit in risus quis, imperdiet pharetra urna. Morbi justo felis, ultricies a neque sit amet, ultrices consequat tortor. Integer non erat dignissim, posuere urna eget, ullamcorper sapien. Nam venenatis odio non nulla facilisis pretium. Aenean purus purus, suscipit at posuere ut, feugiat a dolor. Aliquam eu purus a est tempor pulvinar et sodales diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum porta, hendrerit libero ornare, aliquam nulla. Suspendisse suscipit, eros vel rutrum sagittis, risus orci suscipit lectus, a feugiat turpis diam suscipit quam. Praesent tellus augue, fermentum non justo nec, volutpat sagittis eros. Vestibulum luctus, nibh at varius volutpat, lorem risus feugiat enim, ut volutpat purus dui ac enim. Integer iaculis imperdiet orci vitae ultrices.') Displayposition(2) Left(103) Parent(#PanelOurMission) Tabposition(3) Top(115) Width(800) Height(142) Captionmarginleft(0) Captionmarginright(0) Captionmargintop(0) Captionmarginbottom(0) Wordwrap(True) Paddingbottom(24) Themedrawstyle('ForegroundSecondary')
+    Define_Com Class(#PRIM_MD.Label) Name(#Text6) Caption('Praesent dolor velit, tincidunt sit amet urna sed, faucibus bibendum elit. Mauris eget dolor dolor. Nullam aliquet lectus ac quam scelerisque ultricies. Maecenas fermentum dapibus semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer ac mi mollis elit blandit ullamcorper. Suspendisse pharetra, ligula sit amet fringilla semper, neque urna cursus tortor, ac convallis nunc lectus dictum enim. Morbi a orci venenatis, pellentesque nibh vitae, ultrices risus. Sed tincidunt ligula eget iaculis hendrerit. In hac habitasse platea dictumst. Nam a nulla sit amet risus tempor sollicitudin vel at libero. Nam vel volutpat odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis ut sapien ac metus lobortis varius.') Displayposition(3) Left(103) Parent(#PanelOurMission) Tabposition(1) Top(257) Width(800) Height(166) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Captionmargintop(0) Wordwrap(True) Paddingbottom(48) Themedrawstyle('ForegroundSecondary')
+    Define_Com Class(#PRIM_MD.Label) Name(#TextHeading) Caption('About Contacts') Displayposition(4) Height(143) Left(0) Parent(#PanelAbout) Tabposition(4) Themedrawstyle('Title+Strong+Text(255,255,255,1)') Top(0) Width(1007) Captionalignment(Center) Paddingbottom(48) Paddingtop(48) Style(#OpacityStyle)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text8) Caption('How can we help?') Displayposition(1) Height(119) Left(104) Parent(#PanelHowCanWeHelp) Tabposition(1) Themedrawstyle('Title') Top(0) Width(800) Paddingtop(48) Paddingbottom(24) Captionalignment(Center)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text9) Caption('Suspendisse orci tellus, pulvinar at suscipit non, dapibus quis diam. Nulla facilisi. Vestibulum elementum accumsan posuere. Vivamus pulvinar porta neque, ac efficitur ex vehicula non. Sed enim odio, mattis quis ornare nec, egestas id odio. Proin elementum pharetra ipsum vel iaculis. Aenean ultrices purus nec tellus dictum, vitae pharetra mi dictum. Donec eu nibh risus. Quisque elementum eget tellus et lacinia. Cras cursus viverra leo, id luctus magna dignissim et. Phasellus sagittis blandit lorem, ac scelerisque lectus ornare vitae. Aliquam varius, augue in sollicitudin malesuada, dui nulla facilisis justo, ut volutpat felis dolor vel orci. Fusce et suscipit nibh, et aliquet sem. Maecenas iaculis, sapien a placerat lacinia, nisl sapien aliquam leo, quis aliquet ipsum odio vel leo. Sed et feugiat tellus, vel sagittis est. Aliquam ut turpis diam.') Displayposition(2) Left(104) Parent(#PanelHowCanWeHelp) Tabposition(2) Top(119) Width(800) Height(170) Paddingbottom(48) Wordwrap(True)
+    
+    
+    
+    End_Com
