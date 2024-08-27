@@ -1,0 +1,89 @@
+# Notes
+# This pipeline requires that the shell is specified as powershell in the runner's config.toml file
+# Wrap each powershell line in single quotes so that the syntax is not checked.
+# Within the single quotes its now interpreted as powershell syntax.
+# If a script line has just 1 command, it is tested to see if the returned code is non-zero, and fails immediately.
+# The actual error code is not reported though.
+# So to do so, each line requires ;Write-Host "LASTEXITCODE $LASTEXITCODE"' to be appended. And when thats appended, the script line has multiple commands
+# and so when there is an error the script continues! Also, if the script continues, and no further error occurs, the script is designated as successful,
+# even though $LASTEXITCODE is non-zero!
+# Script setting LASTEXITCODE is also not displayed in the log. So log the error before throwing, and throw from the script to ensure it stops processing.
+# Global before script run before each and every job, in the context of the job. So thats goodness. We can use it.
+# Global after_script run just once, and NOT in the context of the job. So thats NOT goodness. We can't use it. Think docker containers for each job.
+# Not yet clear whether a job-specific after_script is run in the context of the job. The presumption is that it is.
+
+# The APPL_VCS_PATH environment variable is the directory where the source code git repository is located.
+# It should be set in the project CI/CD settings. There it may be different for different branches/tags enabling test and production to be in
+# different directories and not require this file to be modified.
+
+# The 'tags' setting specifies which jobs a runner will run. So it will only run, say jobs with a job tag of 'test-tag'. Then that job will be further
+# validated to ensure that the git reference matches the job too - that is the 'only' setting. The result is that every job has both 'tags' and 'only' specified
+# and they are the same values to easily match up which job is run where. So, when the git reference 'test-tag' is pushed, it results in the runner with
+# the job tag 'test-tag' being run.
+# Note that ALL job tags listed in this file MUST have a Runner that has that job tag specified otherwise it will be STUCK.
+
+# The 'only' setting is used to separate out the different references you want to process.
+# For a particular Runner on a machine once the 'only' setting is true, it still needs to match with the git reference that the application is configured to watch.
+# That setting is in HKLM:\Software\LANSA\$ENV:LANSA_APPL_NAME\ENG\GITREPOBRANCH. Every script checks that this git reference being watched
+# is the same as the commit's reference and returns without error. If an error was returned it would create many false errors.
+
+# The default script provided will correctly deploy either a master branch commit, test-tag commit or prod-tag commit.
+
+stages:
+  - validate
+  - get
+  - build
+
+# Define scripts globally, so they may be run in multiple jobs
+
+.validate_script_template:
+    script:  &validate_script_definition
+      - '"LANSA_VCS_PATH = $ENV:LANSA_VCS_PATH"'
+      - 'if ( !(Test-Path $ENV:LANSA_VCS_PATH -PathType Container)) { throw "LANSA_VCS_PATH $ENV:LANSA_VCS_PATH does not exist"}'
+
+# For use when watching a branch
+# Do the pull like GitDeployHub website
+.branch_script_template:
+    script:  &branch_script_definition
+      - '& Write-Host "Env="$ENV:USERDOMAIN"\"$ENV:USERNAME "Userprofile="$ENV:USERPROFILE "Home="$ENV:HOME "Actual="([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)'
+      - '$ENV:HOME = $ENV:USERPROFILE'
+      - 'cd $LANSA_VCS_PATH'
+      - '& git clean -fd'
+      - '& git fetch'
+      - '& git fetch --tags --force'
+      - '& git status -uno'
+      - '& git reset --hard origin/$ENV:CI_COMMIT_REF_NAME'  # Set the working directory to the correct state. We could stop here. Its now clean and mergeable.
+      - '& git checkout -f $ENV:CI_COMMIT_REF_NAME'          # Make sure we are on the correct branch, which sets the working directory back to the prior state.
+      - '& git pull'                                         # Make the current branch ref match the origin. Only makes a difference if previously in detached head state due to checking out a tag
+
+.build_script_template:
+    script:  &build_script_definition
+      - '& Write-Host "Part="$ENV:LANSA_PARTITION "RootPath="$ENV:LANSA_ROOT_PATH'
+      - '& "$ENV:LANSA_ROOT_PATH\LANSA\compile.cmd" /PARTITION=$ENV:LANSA_PARTITION /OBJECTS=CHGXREF /VCONLY=Y /BUILDID=(Get-Date).ToString("yyyyMMdd_HHmmssfff")'
+
+#
+# These jobs execute only when the commit being deployed is to branch master
+#
+validate_branch_job:
+  stage: validate
+  only:
+    - master
+  tags:
+    - master
+  script: *validate_script_definition
+
+get_branch_job:
+  stage: get
+  only:
+    - master
+  tags:
+    - master
+  script: *branch_script_definition
+
+build_branch_job:
+  stage: build
+  only:
+    - master
+  tags:
+    - master
+  script: *build_script_definition
