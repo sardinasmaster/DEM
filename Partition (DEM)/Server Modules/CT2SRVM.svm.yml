@@ -1,0 +1,331 @@
+﻿ServerModule:
+  Name:               CT2DataServer
+  Target Platform:    Windows/IBM i/Linux
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Contacts Data Server"
+
+  - FRA:
+      Description:        "Contacts Data Server"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_SRVM)
+    
+    Def_List Name(#ContactData) Fields(#xContactIdentification #xContactTitle #xContactLastName #xContactFirstName #xContactGender #xContactEmailAddress #xContactMobilePhone #xContactHomePhone #xContactFaxNumber #xContactBusinessPhone #xContactNotes #xContactPhoto #xContactInterests #xContactBirthdate #xContactHometown #xContactCity #xContactJobTitle #xContactCompany #xContactAddress #xContactCompanySite #xAttachmentHasAttachments #xNoteHasNotes) Counter(#CT2RecordCount) Type(*WORKING) Entrys(*MAX)
+    Def_List Name(#ContactList) Fields(#xContactIdentification #xContactLastName #xContactFirstName #xContactEmailAddress #xContactMobilePhone #xContactPhoto #xContactCity #xContactAddress #xAttachmentHasAttachments #xNoteHasNotes) Type(*WORKING) Entrys(*MAX)
+    
+    Group_By Name(#ContactFields) Fields(#xContactIdentification #xContactTitle #xContactLastName #xContactFirstName #xContactGender #xContactEmailAddress #xContactMobilePhone #xContactHomePhone #xContactFaxNumber #xContactBusinessPhone #xContactNotes #xContactPhoto #xContactInterests #xContactBirthdate #xContactHometown #xContactCity #xContactJobTitle #xContactCompany #xContactAddress #xContactCompanySite)
+    
+    
+    Define Field(#CT2Name) Type(*STRING)
+    Define Field(#CT2Email) Type(*STRING)
+    Define Field(#CT2Phone) Type(*STRING)
+    Define Field(#CT2Subject) Type(*STRING)
+    Define Field(#CT2InquiryType) Type(*STRING)
+    Define Field(#CT2Message) Type(*STRING) Length(4096)
+    Define Field(#CT2Result) Type(*BOOLEAN)
+    Define Field(#CT2URL) Type(*NVARCHAR)
+    Define Field(#CT2UserName) Type(*STRING)
+    Define Field(#CT2Password) Type(*STRING)
+    Define Field(#CT2FileName) Type(*STRING)
+    Define Field(#CT2RecordCount) Type(*INT)
+    Define Field(#CT2ReturnCode) Type(*NVARCHAR)
+    Define Field(#CT2LookupId) Reffld(#xContactIdentification)
+    Define Field(#xTAResult) Type(*BOOLEAN)
+    
+    
+    Define Field(#xRecaptchaResponse) Type(*NVARCHAR) Length(1000)
+    * This sample isn't allowed to actually change the Contacts Table, it works of a persisted list instead, so that whatever you add or change will only be valid for YOUR session. If you generate the application, it will properly run over the Contacts table.
+    
+    Persist Lists(#ContactData)
+    
+    Srvroutine Name(SignIn)
+    Field_Map For(*INPUT) Field(#xUsername) Parameter_Name(User)
+    Field_Map For(*INPUT) Field(#xPassword) Parameter_Name(Password)
+    Field_Map For(*OUTPUT) Field(#CT2ReturnCode) Parameter_Name(Result)
+    
+    Define_Com Class(#xUserAccountControl) Name(#UserAccount)
+    
+    #CT2ReturnCode := #UserAccount.Login( #xUsername #xPassword )
+    
+    If (#CT2ReturnCode = OK)
+    
+    #COM_OWNER.StartSession
+    
+    * Load the contact data
+    Select Fields(#ContactData) From_File(xContacts) Io_Error(*NEXT) Val_Error(*NEXT)
+    
+    #xAttachmentHasAttachments := #COM_OWNER.CheckForAssociations( "ATTACHMENTS" "xContacts" (#xContactIdentification.AsString) )
+    
+    #xNoteHasNotes := #COM_OWNER.CheckForAssociations( 'NOTES' "xContacts" (#xContactIdentification.AsString) )
+    
+    Add_Entry To_List(#ContactData)
+    
+    * 225 records will do for this demo
+    Leave If(#CT2RecordCount = 225)
+    
+    Endselect
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(SignInAsGuest)
+    
+    #COM_OWNER.StartSession
+    
+    * Load the contact data
+    Select Fields(#ContactData) From_File(xContacts) Io_Error(*NEXT) Val_Error(*NEXT)
+    
+    #xAttachmentHasAttachments := #COM_OWNER.CheckForAssociations( "ATTACHMENTS" "xContacts" (#xContactIdentification.AsString) )
+    
+    #xNoteHasNotes := #COM_OWNER.CheckForAssociations( 'NOTES' "xContacts" (#xContactIdentification.AsString) )
+    
+    Add_Entry To_List(#ContactData)
+    
+    * 225 records will do for this demo
+    Leave If(#CT2RecordCount = 225)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(ValidateUserName)
+    Field_Map For(*INPUT) Field(#XUserName) Parameter_Name(UserName)
+    Field_Map For(*OUTPUT) Field(#CT2ReturnCode) Parameter_Name(ReturnCode)
+    
+    Define_Com Class(#xUserAccountControl) Name(#UserAccount)
+    
+    #CT2ReturnCode := #UserAccount.ValidateUserName( #XUserName )
+    
+    Endroutine
+    
+    
+    Srvroutine Name(RegisterUser)
+    Field_Map For(*INPUT) Field(#xUsername) Parameter_Name(User)
+    Field_Map For(*INPUT) Field(#xEmail) Parameter_Name(Email)
+    Field_Map For(*INPUT) Field(#xPassword) Parameter_Name(Password)
+    Field_Map For(*OUTPUT) Field(#CT2ReturnCode) Parameter_Name(Result)
+    
+    Define_Com Class(#xUserAccountControl) Name(#UserAccount)
+    
+    #CT2ReturnCode := #UserAccount.RegisterUser( #xUsername #xEmail #xPassword )
+    
+    Endroutine
+    
+    
+    Srvroutine Name(RequestPasswordReset)
+    Field_Map For(*INPUT) Field(#xUsername) Parameter_Name(UserameOrEmail)
+    Field_Map For(*INPUT) Field(#CT2URL) Parameter_Name(URL)
+    Field_Map For(*OUTPUT) Field(#CT2ReturnCode) Parameter_Name(Result)
+    
+    Define_Com Class(#xUserAccountControl) Name(#UserAccount)
+    
+    * This will use SendGrid to send an email to reset password
+    * To get a SendGrid API Key register at https://sendgrid.com/
+    * Use Package manager to apply the API key to your applications
+    
+    #CT2ReturnCode := #UserAccount.SendResetRequest( #xUsername #CT2URL )
+    
+    Endroutine
+    
+    Srvroutine Name(SignOut) Session(*REQUIRED)
+    
+    #COM_OWNER.EndSession
+    
+    Endroutine
+    
+    Srvroutine Name(Find) Session(*REQUIRED)
+    Field_Map For(*INPUT) Field(#STD_STRNG) Parameter_Name(Filter)
+    Field_Map For(*BOTH) Field(#STD_NUM) Parameter_Name(ItemCount)
+    List_Map For(*OUTPUT) List(#ContactList)
+    
+    #STD_STRNG := #STD_STRNG.UpperCase.Trim
+    
+    Define Field(#ItemStart) Type(*DEC) Length(10) Decimals(0)
+    Define Field(#ItemEnd) Type(*DEC) Length(10) Decimals(0)
+    Define Field(#ItemNumber) Type(*DEC) Length(10) Decimals(0)
+    
+    #ItemStart := #STD_NUM
+    
+    #ItemEnd := #STD_NUM + 50
+    
+    Selectlist Named(#ContactData)
+    
+    #ItemNumber += 1
+    
+    If ((#STD_STRNG = *BLANKS) *OrIf (#xContactTitle.UpperCase.Contains( #STD_STRNG )) *OrIf (#xContactLastName.UpperCase.Contains( #STD_STRNG )) *OrIf (#xContactFirstName.UpperCase.Contains( #STD_STRNG )))
+    
+    Continue If((#ItemNumber < #ItemStart) *And (#STD_STRNG = *BLANKS))
+    
+    #xAttachmentHasAttachments := #COM_OWNER.CheckForAssociations( "ATTACHMENTS" "xContacts" (#xContactIdentification.AsString) )
+    
+    #xNoteHasNotes := #COM_OWNER.CheckForAssociations( 'NOTES' "xContacts" (#xContactIdentification.AsString) )
+    
+    Add_Entry To_List(#ContactList)
+    
+    Leave If((#ItemEnd = #ItemNumber) *And (#STD_STRNG = *BLANKS))
+    
+    Endif
+    
+    Endselect
+    
+    If (#ItemNumber <> #CT2RecordCount)
+    
+    #STD_NUM := #ItemEnd + 1
+    
+    Else
+    
+    #STD_NUM := 0
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(Read) Session(*REQUIRED)
+    Field_Map For(*INPUT) Field(#xContactIdentification)
+    Group_Map For(*OUTPUT) Group(#ContactFields)
+    
+    #CT2LookupId := #xContactIdentification
+    
+    Loc_Entry In_List(#ContactData) Where(#xContactIdentification = #CT2LookupId)
+    
+    Endroutine
+    
+    Srvroutine Name(Save) Session(*REQUIRED)
+    Group_Map For(*INPUT) Group(#ContactFields)
+    Field_Map For(*INPUT) Field(#STD_BLOB)
+    Field_Map For(*OUTPUT) Field(#STD_CODE) Parameter_Name(ReturnCode)
+    
+    #CT2LookupId := #xContactIdentification
+    
+    Loc_Entry In_List(#ContactData) Where(#xContactIdentification = #CT2LookupId) Ret_Entry(*NO)
+    
+    If_Status Is(*OKAY)
+    
+    Upd_Entry In_List(#ContactData)
+    
+    Else
+    
+    If_Status Is(*NORECORD)
+    
+    Add_Entry To_List(#ContactData)
+    
+    Endif
+    
+    Endif
+    
+    If (#STD_BLOB.IsNotSqlNull)
+    
+    #CT2FileName := (*PART_DIR + "web\vl\images\contacts\" + #xContactPhoto.AsNativeString)
+    
+    Use Builtin(OV_FILE_SERVICE) With_Args("COPY_FILE" #STD_BLOB.FileName #CT2FileName)
+    
+    Endif
+    
+    #STD_CODE := "OK"
+    
+    Endroutine
+    
+    Srvroutine Name(Delete) Session(*REQUIRED)
+    Field_Map For(*INPUT) Field(#xContactIdentification)
+    
+    #CT2LookupId := #xContactIdentification
+    
+    Loc_Entry In_List(#ContactData) Where(#xContactIdentification = #CT2LookupId) Ret_Status(#STD_CODE) Ret_Entry(*NO)
+    
+    If_Status Is(*OKAY)
+    
+    Dlt_Entry From_List(#ContactData)
+    
+    Endif
+    
+    Endroutine
+    
+    
+    
+    
+    Srvroutine Name(ContactUs)
+    Field_Map For(*INPUT) Field(#CT2Name) Parameter_Name(Name)
+    Field_Map For(*INPUT) Field(#CT2Email) Parameter_Name(Email)
+    Field_Map For(*INPUT) Field(#CT2Phone) Parameter_Name(Phone)
+    Field_Map For(*INPUT) Field(#CT2Subject) Parameter_Name(Subject)
+    Field_Map For(*INPUT) Field(#CT2Message) Parameter_Name(Message)
+    Field_Map For(*INPUT) Field(#CT2InquiryType) Parameter_Name(InquiryType)
+    Field_Map For(*OUTPUT) Field(#CT2Result) Parameter_Name(Result)
+    
+    * You now need to decide what to do with them. For example you might
+    * email them to a monitored email address, or you might write them into a
+    * monitored data base table, or even send them to a monitored data queue
+    * for subsequent processing. You might even SMS them to someone.
+    
+    #CT2Result := True
+    
+    Endroutine
+    
+    
+    
+    Mthroutine Name(CheckForAssociations) Access(*PRIVATE)
+    Define_Map For(*INPUT) Class(#PRIM_ALPH) Name(#iType)
+    Define_Map For(*INPUT) Class(#xAttachmentOwnerType) Name(#iOwnerType)
+    Define_Map For(*INPUT) Class(#xAttachmentOwnerKey) Name(#iOwnerKey)
+    Define_Map For(*RESULT) Class(#PRIM_BOLN) Name(#Result)
+    
+    If (#iType = 'ATTACHMENTS')
+    
+    Check_For In_File(xAssociatedAttachmentByType) With_Key(#iOwnerType #iOwnerKey) Io_Error(*NEXT)
+    
+    Endif
+    
+    If (#iType = 'NOTES')
+    
+    Check_For In_File(xNoteByType) With_Key(#iOwnerType #iOwnerKey) Io_Error(*NEXT)
+    
+    Endif
+    
+    If_Status Is(*OKAY)
+    
+    #Result := True
+    
+    Endif
+    
+    If_Status Is(*EQUALKEY)
+    
+    #Result := True
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(DeleteAttachmentsAndNotes) Access(*PRIVATE)
+    Define_Map For(*INPUT) Class(#xAttachmentOwnerType) Name(#iOwnerType)
+    Define_Map For(*INPUT) Class(#xAttachmentOwnerKey) Name(#iOwnerKey)
+    
+    
+    Delete From_File(xAssociatedAttachmentByType) With_Key(#iOwnerType #iOwnerKey) Io_Error(*NEXT)
+    
+    Delete From_File(xNoteByType) With_Key(#iOwnerType #iOwnerKey) Io_Error(*NEXT)
+    
+    Endroutine
+    
+    
+    
+    
+    * *
+    * When the user completes a reCAPTCHA test, a response string will be generated
+    * We must validate the string with Google to verify authenticity
+    Srvroutine Name(ValidateRecaptcha)
+    Field_Map For(*INPUT) Field(#xRecaptchaResponse) Parameter_Name(Response)
+    Field_Map For(*OUTPUT) Field(#STD_BOOL) Parameter_Name(OK)
+    
+    Define_Com Class(#XWS_Google_Recaptcha) Name(#Recaptcha)
+    Define_Com Class(#XWS_RequestStatus) Name(#Status)
+    
+    * Check that the reCAPTCHA result that the client sent is legit
+    #Recaptcha.ValidateResponse Response(#xRecaptchaResponse) Status(#Status) Result(#STD_BOOL)
+    Endroutine
+    
+    
+    End_Com
+    

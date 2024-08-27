@@ -1,0 +1,349 @@
+﻿Web Page:
+  Name:               CT2Main
+  Enabled For RDMLX:  Yes
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Contacts"
+
+  - FRA:
+      Description:        "Contacts"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Theme(#SYS_THEME<MaterialDesignBlue>) Layoutmanager(#LayoutMain) Width(1089) Icon(#CT2Icon) Caption('Contacts')
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleHand) Cursor(Hand)
+    
+    * Layout - Main
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainColumn1) Displayposition(1) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainColumn2) Displayposition(2) Parent(#LayoutMain) Units(Content) Width(220)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainColumn3) Displayposition(3) Parent(#LayoutMain) Width(12) Maxwidth(1200)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainColumn4) Displayposition(4) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainRow1) Displayposition(1) Parent(#LayoutMain) Height(56) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainRow2) Displayposition(2) Parent(#LayoutMain) Height(50) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainRow3) Displayposition(3) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem1) Column(#LayoutMainColumn1) Manage(#AppBar) Parent(#LayoutMain) Row(#LayoutMainRow1) Columnspan(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem2) Column(#LayoutMainColumn2) Manage(#AppDrawer) Parent(#LayoutMain) Row(#LayoutMainRow2) Sizing(FitToHeight) Rowspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem4) Column(#LayoutMainColumn3) Manage(#SearchString) Parent(#LayoutMain) Row(#LayoutMainRow2) Sizing(FitToWidth) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem3) Column(#LayoutMainColumn3) Manage(#ViewContainer) Parent(#LayoutMain) Row(#LayoutMainRow3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItemPeople) Column(#LayoutMainColumn1) Manage(#PeoplePanel) Parent(#LayoutMain) Row(#LayoutMainRow1) Rowspan(3) Columnspan(4) Sizing(None)
+    
+    * Layout - App Bar
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem5) Alignment(BottomCenter) Column(#LayoutMainColumn1) Manage(#Alert) Parent(#LayoutMain) Row(#LayoutMainRow3) Sizing(FitToWidth) Columnspan(4)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutAppBar)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutAppBarRow1) Displayposition(1) Parent(#LayoutAppBar)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutAppBarColumn1) Displayposition(1) Parent(#LayoutAppBar)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutAppBarItem1) Alignment(CenterRight) Column(#LayoutAppBarColumn1) Manage(#SearchIcon) Parent(#LayoutAppBar) Row(#LayoutAppBarRow1) Sizing(None) Flow(Left)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutAppBarItem2) Alignment(CenterRight) Column(#LayoutAppBarColumn1) Manage(#EditIcon) Parent(#LayoutAppBar) Row(#LayoutAppBarRow1) Sizing(None) Flow(Left)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutAppBarItem3) Alignment(CenterRight) Column(#LayoutAppBarColumn1) Manage(#FilterIcon) Parent(#LayoutAppBar) Row(#LayoutAppBarRow1) Sizing(None) Flow(Left)
+    
+    * Layout - App Drawer
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutAppDrawer)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutAppDrawerColumn1) Displayposition(1) Parent(#LayoutAppDrawer)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutAppDrawerRow1) Displayposition(1) Parent(#LayoutAppDrawer)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutAppDrawerItem1) Alignment(TopCenter) Column(#LayoutAppDrawerColumn1) Manage(#AppMenu) Parent(#LayoutAppDrawer) Row(#LayoutAppDrawerRow1) Sizing(ContentHeightFitToWidth) Flow(Down)
+    
+    * Layout - People Background
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutPeople)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutPeopleColumn1) Displayposition(1) Parent(#LayoutPeople) Minwidth(1200)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPeopleRow1) Displayposition(1) Parent(#LayoutPeople)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPeopleItem1) Manage(#ImagePeople) Parent(#LayoutPeople) Row(#LayoutPeopleRow1) Column(#LayoutPeopleColumn1) Alignment(TopCenter)
+    
+    * Controls - App Bar
+    Define_Com Class(#PRIM_MD.AppBar) Name(#AppBar) Displayposition(2) Parent(#COM_OWNER) Tabposition(1) Width(1089) Themedrawstyle('Heading1') Caption('Contacts') Captionmarginbottom(0) Captionmarginright(0) Captionmargintop(0) Icon('menu') Layoutmanager(#LayoutAppBar) Visible(False)
+    Define_Com Class(#PRIM_MD.Icon) Name(#SearchIcon) Displayposition(1) Icon('search') Left(1041) Parent(#AppBar) Tabposition(1) Top(4) Visible(False) Style(#StyleHand)
+    Define_Com Class(#PRIM_MD.Icon) Name(#EditIcon) Displayposition(2) Icon('edit') Left(993) Parent(#AppBar) Tabposition(2) Top(4) Style(#StyleHand) Visible(False)
+    Define_Com Class(#PRIM_MD.Icon) Name(#FilterIcon) Displayposition(3) Icon('arrow_drop_down') Left(945) Parent(#AppBar) Tabposition(3) Top(4) Style(#StyleHand) Visible(False)
+    
+    * Controls - App Drawer
+    Define_Com Class(#PRIM_MD.AppDrawer) Name(#AppDrawer) Displayposition(3) Parent(#COM_OWNER) Tabposition(2) Top(56) Height(744) Layoutmanager(#LayoutAppDrawer) Themedrawstyle('RightDivider') Width(220) Visible(False) Left(63)
+    Define_Com Class(#PRIM_MD.Menu) Name(#AppMenu) Displayposition(1) Parent(#AppDrawer) Height(240) Width(219) Tabposition(1)
+    Define_Com Class(#PRIM_MD.MenuItem) Name(#ButtonContactsButtonContacts) Caption('Contacts') Displayposition(1) Left(0) Parent(#AppMenu) Tabposition(1) Top(0) Width(219) Height(48) Icon('people') Iconthemedrawstyle('ForegroundSecondary') View(#Contacts) Tabstop(False)
+    Define_Com Class(#PRIM_MD.MenuItem) Name(#ButtonContactUs) Caption('Contact Us') Displayposition(3) Left(0) Parent(#AppMenu) Tabposition(3) Top(96) Width(219) Height(48) Icon('local_phone') Iconthemedrawstyle('ForegroundSecondary') View(#ContactUsView) Tabstop(False)
+    Define_Com Class(#PRIM_MD.MenuItem) Name(#ButtonSignOut) Caption('Sign Out') Displayposition(5) Left(0) Parent(#AppMenu) Tabposition(5) Top(192) Width(219) Height(48) Icon('exit_to_app') Iconthemedrawstyle('ForegroundSecondary') Tabstop(False)
+    Define_Com Class(#PRIM_MD.MenuItem) Name(#ButtonSettings) Caption('Settings') Displayposition(2) Left(0) Parent(#AppMenu) Tabposition(2) Top(48) Width(219) Height(48) Icon('settings') Themedrawstyle('TopDivider') Iconthemedrawstyle('ForegroundSecondary') View(#Settings) Tabstop(False)
+    Define_Com Class(#PRIM_MD.MenuItem) Name(#ButtonAbout) Caption('About') Displayposition(4) Left(0) Parent(#AppMenu) Tabposition(4) Top(144) Width(219) Height(48) Icon('info') Iconthemedrawstyle('ForegroundSecondary') Tabstop(False) View(#About)
+    
+    * Controls - Search
+    Define_Com Class(#PRIM_MD.Edit) Name(#SearchString) Appearance(None) Displayposition(6) Height(50) Helperposition(None) Captionposition(None) Left(283) Parent(#COM_OWNER) Tabposition(5) Top(56) Width(744) Icon('search') Placeholder('Search') Themedrawstyle('BottomDivider') Visible(False)
+    
+    * Controls - Background
+    Define_Com Class(#PRIM_PANL) Name(#PeoplePanel) Displayposition(5) Left(544) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(400) Height(0) Width(0) Layoutmanager(#LayoutPeople)
+    Define_Com Class(#PRIM_IMAG) Name(#ImagePeople) Displayposition(1) Left(0) Parent(#PeoplePanel) Tabposition(1) Tabstop(False) Top(0) Height(0) Width(1200) Image(#xImagePeople) Imagesizing(Cropped) Imagealignment(TopCenter)
+    
+    * Views
+    Define_Com Class(#PRIM_MD.ViewContainer) Name(#ViewContainer) Displayposition(4) Left(283) Parent(#COM_OWNER) Tabposition(3) Top(106) Height(694) Width(744) Visible(False)
+    Define_Com Class(#CT2Contacts) Name(#Contacts) Height(694) Left(248) Parent(#ViewContainer) Width(744) Visible(True)
+    Define_Com Class(#CT2Settings) Name(#Settings) Parent(#ViewContainer) Height(694) Width(744) Displayposition(4) Tabposition(3) Top(228) Left(248)
+    Define_Com Class(#CT2About) Name(#About) Displayposition(3) Height(694) Parent(#ViewContainer) Tabposition(2) Width(744) Top(228)
+    Define_Com Class(#CT2ContactUs) Name(#ContactUsView) Displayposition(2) Height(694) Parent(#ViewContainer) Tabposition(4) Width(744) Left(496)
+    
+    * SignIn Dialog
+    Define_Com Class(#CT2SignIn) Name(#SignIn)
+    Define_Com Class(#PRIM_MD.Alert) Name(#Alert) Caption('Message Sent') Displayposition(1) Duration(3000) Parent(#COM_OWNER) Tabposition(6) Themebackground(Dark) Themedrawstyle('Card') Top(744) Width(1089) Closeicon(False)
+    
+    
+    Mthroutine Name(LogOut)
+    Define_Map For(*INPUT) Class(#PRIM_BOLN) Name(#SignOutRequired)
+    
+    Define_Com Class(#CT2DataServer.SignOut) Name(#SignOut)
+    
+    If (#SignOutRequired)
+    
+    #SignOut.ExecuteAsync
+    
+    Endif
+    
+    #ViewContainer.Clear
+    
+    #SearchIcon.FadeOut
+    #EditIcon.FadeOut
+    #FilterIcon.FadeOut
+    #AppBar.FadeOut
+    #AppDrawer.FadeOut
+    #ViewContainer.FadeOut
+    
+    #PeoplePanel.FadeIn
+    
+    #SignIn.Show
+    
+    Endroutine
+    
+    * ************** *
+    * Event Routines *
+    * ************** *
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    #SignIn.Show
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonSignOut.Click)
+    
+    #COM_OWNER.LogOut( True )
+    
+    Endroutine
+    
+    Evtroutine Handling(#SignIn.SignInCompleted)
+    
+    #SearchIcon.FadeIn
+    #EditIcon.FadeIn
+    #FilterIcon.FadeIn
+    #AppBar.FadeIn
+    #AppDrawer.FadeIn
+    #ViewContainer.FadeIn
+    
+    #PeoplePanel.Visible := False
+    
+    #Contacts.Show
+    
+    Endroutine
+    
+    Evtroutine Handling(#AppBar.IconClick)
+    
+    #AppDrawer.ToggleDrawer
+    
+    Endroutine
+    
+    Evtroutine Handling(#SYS_WEB.DeviceChanged)
+    
+    Case (#SYS_WEB.Device)
+    
+    When (= Mobile)
+    
+    #LayoutMainColumn1.Units := Pixels
+    #LayoutMainColumn1.Width := 0
+    
+    #LayoutMainColumn4.Units := Pixels
+    #LayoutMainColumn4.Width := 0
+    
+    #AppDrawer.DrawerStyle := SlideInLeft
+    
+    #SearchString.ThemeDrawStyle := 'BottomDivider'
+    #AppDrawer.ThemeDrawStyle := 'RightDivider'
+    #ViewContainer.ThemeDrawStyle := ''
+    
+    When (= Tablet)
+    
+    #LayoutMainColumn1.Units := Pixels
+    #LayoutMainColumn1.Width := 0
+    
+    #LayoutMainColumn4.Units := Pixels
+    #LayoutMainColumn4.Width := 0
+    
+    #AppDrawer.DrawerStyle := Permanent
+    
+    #SearchString.ThemeDrawStyle := 'BottomDivider'
+    #AppDrawer.ThemeDrawStyle := 'RightDivider'
+    #ViewContainer.ThemeDrawStyle := ''
+    
+    When (= Desktop)
+    
+    #LayoutMainColumn1.Units := Proportion
+    #LayoutMainColumn1.Width := 1
+    
+    #LayoutMainColumn4.Units := Proportion
+    #LayoutMainColumn4.Width := 1
+    
+    #AppDrawer.DrawerStyle := Permanent
+    
+    #SearchString.ThemeDrawStyle := 'Card'
+    #AppDrawer.ThemeDrawStyle := 'Card'
+    #ViewContainer.ThemeDrawStyle := 'Card'
+    
+    Endcase
+    
+    Endroutine
+    
+    Evtroutine Handling(#SearchIcon.Click)
+    
+    If (#SearchString <> "")
+    
+    #SearchString := ""
+    
+    Set Com(#Contacts) Filter(#SearchString)
+    
+    Endif
+    
+    #SearchString.Visible := *Not #SearchString.Visible
+    
+    Endroutine
+    
+    Evtroutine Handling(#EditIcon.Click)
+    
+    #Contacts.ToggleEdit
+    
+    Endroutine
+    
+    Evtroutine Handling(#FilterIcon.Click)
+    
+    #Contacts.ToggleFilter Context(#FilterIcon)
+    
+    Endroutine
+    
+    Evtroutine Handling(#SearchString.AutoSuggest)
+    
+    Set Com(#Contacts) Filter(#SearchString)
+    
+    Endroutine
+    
+    Evtroutine Handling(#ViewContainer.ActiveViewChanged)
+    
+    If (#ViewContainer.ActiveView *IsEqualTo #Contacts)
+    
+    #SearchIcon.FadeIn
+    #EditIcon.FadeIn
+    #FilterIcon.FadeIn
+    
+    Else
+    
+    #SearchIcon.FadeOut
+    #EditIcon.FadeOut
+    #FilterIcon.FadeOut
+    
+    Endif
+    
+    #SearchString := ""
+    
+    #SearchString.Visible := False
+    
+    Endroutine
+    
+    Evtroutine Handling(#COM_OWNER.CreateInstance)
+    
+    * Sizing is none at design time to not pollute the Design
+    #LayoutMainItemPeople.Sizing := FitBoth
+    
+    Endroutine
+    
+    Evtroutine Handling(#SYS_WEB.RequestFailed) Reason(#Reason) Handled(#Handled)
+    
+    If (#Reason = SessionInvalid)
+    
+    #SYS_APPLN.CloseAllDialogs
+    
+    #COM_OWNER.LogOut( False )
+    
+    #Handled := True
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#ContactUsView.MessageStatus) Message(#Message)
+    
+    #Alert.Caption := #Message
+    #Alert.ShowAlert
+    
+    Endroutine
+    
+    End_Com
+    
+
+  Components:
+  - CT2Contacts
+  - CT2Settings
+  - CT2ContactUs
+  - CT2ABOUT
+  - CT2TAG
+  - CT2Delete
+  - CT2Details
+  - CT2SignIn
+  - CT2DataServer
+  - CT2Icon
+  - CT2Background
+  - CT2IMGTAG
+  - xLaunchEmail
+  - xLaunchPhone
+  - xLaunchSms
+  - xAttachmentDialog
+  - xAttachmentContainer
+  - xAttachmentDragAndDropWidget
+  - xAttachmentDataServer
+  - xAddimage
+  - xNotesDialog
+  - xNoteQuillEditor
+  - xNoteEditor
+  - xNotesDataServer
+  - xUserAccountControl
+  - xPasswordManagerSrv
+  - XWS_BaseObject
+  - XWS_Google_Recaptcha
+  - XWS_Google_RecaptchaV2Visual
+  - XWS_Mail_ProviderFactory
+  - XWS_Mail_Provider
+  - XWS_Mail_Provider_SendGrid
+  - XWS_RequestStatus
+  - XWS_Settings_SendGridServices
+  - XWS_Settings_GoogleServices
+  - XBaseObject
+  - XInternal_DynScript_GoogleRecaptcha
+  - XInternal_Config_Clientside_Base
+  - XInternal_Config_Clientside_Singleton_Base
+  - XInternal_Google_ClientConfig
+  - XInternal_Google_ClientConfig_Singleton
+  - XInternal_Google_ClientConfig_Singleton
+  - XInternal_Google_ClientConfig_ServerModule
+  - XInternal_Google_Recaptcha_Widget_V2
+  - XInternal_Settings_Singleton
+  - XInternal_Settings_File
+  - XInternal_WebUtil
+  - XWebUtil_DynamicScript_Base
+  - XWebUtil_AddScript
+  - XMailMessage
+  - XMailAddress
+  - XSettings
+
+  Offline Support:    No
+  Allow Zoom:         No
+
+  Web App Manifest:
+
+  Loading Screen:
+    Image:              Spinner
+
+  Security Policy:    None

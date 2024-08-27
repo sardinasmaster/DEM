@@ -1,0 +1,364 @@
+﻿Web View:
+  Name:               CT2ContactUs
+  Enabled For RDMLX:  Yes
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Contact Us"
+
+  - FRA:
+      Description:        "Contact Us"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_VIEW) Layoutmanager(#LayoutDesktop) Verticalscroll(True) Displayposition(1) Height(857) Tabposition(1) Width(857) Style(#HeadingBackground)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLink) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Underline(True)
+    
+    Define_Com Class(#prim_vs.Style) Name(#HeadingBackground) Backgroundbrush(#HeadingBackgroundBrush)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#HeadingBackgroundBrush) Image(#xImagePeople) Sizing(Cropped) Alignment(BottomCenter)
+    
+    Define_Com Class(#prim_vs.Style) Name(#HeadingBackground2) Backgroundbrush(#HeadingBackgroundBrush2)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#HeadingBackgroundBrush2) Image(#xImagePeople) Sizing(Cropped)
+    
+    * Layout Desktop
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style3) Cornertopleft(12) Cornertopright(12) Borderleft(0) Bordertop(0) Borderright(0) Borderbottom(0)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style4) Cornertopleft(0) Cornertopright(0) Borderleft(0) Bordertop(0) Borderright(0) Borderbottom(0) Cornerbottomleft(0) Cornerbottomright(0)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style5) Backgroundbrush(#Brush2) Cornerbottomleft(99) Cornerbottomright(99) Cornertopleft(99) Cornertopright(99) Foregroundbrush(#Brush3) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush3) Color(255:255:255)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(Theme500)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style6) Cornerbottomleft(99) Cornerbottomright(99) Cornertopleft(99) Cornertopright(99) Borderleft(1) Bordertop(1) Borderright(1) Borderbottom(1) Backgroundbrush(#Brush4)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush4) Color(Theme700)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutDesktopColumn1) Displayposition(1) Parent(#LayoutDesktop) Width(80)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutDesktopRow) Displayposition(1) Parent(#LayoutDesktop) Height(965) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutDesktopContactDetails) Column(#LayoutDesktopColumn1) Manage(#PanelContactDetails) Parent(#LayoutDesktop) Row(#LayoutDesktopRow) Sizing(ContentHeightFitToWidth) Marginright(48) Marginleft(48) Alignment(TopLeft) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutDesktopContactUS) Alignment(TopLeft) Column(#LayoutDesktopColumn1) Manage(#PanelContactUs) Parent(#LayoutDesktop) Row(#LayoutDesktopRow) Marginleft(48) Marginbottom(48) Marginright(48) Flow(Down) Sizing(ContentHeightFitToWidth)
+    
+    * Layout Mobile
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutDesktopItem1) Alignment(TopCenter) Column(#LayoutDesktopColumn1) Manage(#Panel) Parent(#LayoutDesktop) Row(#LayoutDesktopRow) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutDesktopItem2) Alignment(TopLeft) Column(#LayoutDesktopColumn1) Manage(#Text) Parent(#LayoutDesktop) Row(#LayoutDesktopRow) Sizing(ContentWidthAndHeight) Flow(Down) Margintop(24) Marginleft(48)
+    
+    Define_Com Class(#prim_TBLO) Name(#LayoutMobile) Sizing(ContentHeight)
+    Define_Com Class(#prim_TBLO.Column) Name(#layoutMobileColumn) Parent(#LayoutMobile) Displayposition(1)
+    Define_Com Class(#prim_TBLO.Row) Name(#layoutMobileRow) Parent(#LayoutMobile) Displayposition(1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMobileContactDetails) Parent(#LayoutMobile) Row(#layoutMobileRow) Column(#layoutMobileColumn) Sizing(ContentHeightFitToWidth) Flow(Down) Manage(#PanelContactDetails) Alignment(TopLeft) Margintop(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMobileContactUs) Parent(#LayoutMobile) Row(#layoutMobileRow) Column(#layoutMobileColumn) Sizing(ContentHeightFitToWidth) Manage(#PanelContactUs) Flow(Down) Alignment(TopLeft) Margintop(4)
+    
+    
+    * Layout Contacts Card
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMobileItem1) Alignment(TopLeft) Column(#layoutMobileColumn) Manage(#Text) Parent(#LayoutMobile) Row(#layoutMobileRow) Sizing(None) Flow(Down) Margintop(22) Marginbottom(-5) Marginleft(8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMobileItem2) Alignment(TopLeft) Column(#layoutMobileColumn) Manage(#Text1) Parent(#LayoutMobile) Row(#layoutMobileRow) Sizing(None) Flow(Down) Marginbottom(-5) Margintop(16) Marginleft(8)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutContactDetails)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutContactDetailsColumn1) Displayposition(1) Parent(#LayoutContactDetails)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactDetailsRow1) Displayposition(1) Parent(#LayoutContactDetails) Units(Pixels) Height(16)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactDetailsRow2) Displayposition(2) Parent(#LayoutContactDetails) Height(36) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactDetailsRow7) Displayposition(3) Parent(#LayoutContactDetails) Height(144) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactDetailsRow3) Displayposition(4) Parent(#LayoutContactDetails) Height(64) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem2) Alignment(CenterLeft) Column(#LayoutContactDetailsColumn1) Manage(#LabelCompanyName) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow2) Sizing(ContentHeightFitToWidth) Flow(Down) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem3) Alignment(TopLeft) Column(#LayoutContactDetailsColumn1) Manage(#LabelAddress) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow7) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem7) Alignment(TopLeft) Column(#LayoutContactDetailsColumn1) Manage(#LabelEmail) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow7) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem9) Alignment(TopLeft) Column(#LayoutContactDetailsColumn1) Manage(#LabelPhone) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow7) Sizing(ContentHeightFitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem4) Column(#LayoutContactDetailsColumn1) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow1) Margintop(6) Sizing(FitToWidth)
+    
+    * Layout Message Card
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem1) Alignment(TopCenter) Column(#LayoutContactDetailsColumn1) Manage(#IconLinkedIn) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow3) Sizing(None) Flow(CenterHorizontal) Marginleft(12) Marginright(12)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem6) Alignment(TopCenter) Column(#LayoutContactDetailsColumn1) Manage(#IconFacebook) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow3) Sizing(None) Flow(CenterHorizontal) Marginleft(12) Marginright(12)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem8) Alignment(TopCenter) Column(#LayoutContactDetailsColumn1) Manage(#IconTwitter) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow3) Sizing(None) Flow(CenterHorizontal) Marginleft(12) Marginright(12)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutContactUs)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactUsRow1) Displayposition(1) Parent(#LayoutContactUs) Units(Content) Height(352)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutContactUsColumn1) Displayposition(1) Parent(#LayoutContactUs)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactUsRow2) Displayposition(2) Parent(#LayoutContactUs) Height(83) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactUsRow3) Displayposition(3) Parent(#LayoutContactUs) Height(80) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactUsRow4) Displayposition(4) Parent(#LayoutContactUs) Units(Content) Height(48)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutContactUsRow5) Displayposition(5) Parent(#LayoutContactUs) Height(8) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactUsItem1) Alignment(TopCenter) Column(#LayoutContactUsColumn1) Manage(#EditContactMessage) Parent(#LayoutContactUs) Row(#LayoutContactUsRow2) Flow(Down) Marginleft(16) Marginright(8) Sizing(ContentHeightFitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactUsItem2) Alignment(TopCenter) Column(#LayoutContactUsColumn1) Manage(#EditContactSubject) Parent(#LayoutContactUs) Row(#LayoutContactUsRow1) Flow(Down) Marginleft(16) Marginright(8) Marginbottom(8) Sizing(FitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactUsItem3) Alignment(TopCenter) Column(#LayoutContactUsColumn1) Manage(#EditContactEmail) Parent(#LayoutContactUs) Row(#LayoutContactUsRow1) Flow(Down) Marginleft(16) Marginright(8) Marginbottom(8) Sizing(FitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactUsItem5) Alignment(TopCenter) Column(#LayoutContactUsColumn1) Manage(#EditContactName) Parent(#LayoutContactUs) Row(#LayoutContactUsRow1) Flow(Down) Marginleft(16) Marginright(8) Marginbottom(8) Sizing(FitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactUsItem7) Alignment(TopCenter) Column(#LayoutContactUsColumn1) Manage(#EditContactPhone) Parent(#LayoutContactUs) Row(#LayoutContactUsRow1) Flow(Down) Marginleft(16) Marginright(8) Marginbottom(8) Sizing(FitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactUsItem4) Column(#LayoutContactUsColumn1) Manage(#ButtonContactUs) Parent(#LayoutContactUs) Row(#LayoutContactUsRow4) Sizing(FitToWidth) Flow(Down) Marginleft(16) Marginright(8) Alignment(TopCenter) Margintop(8)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactDetailsItem5) Alignment(TopLeft) Column(#LayoutContactDetailsColumn1) Manage(#LabelWebsite) Parent(#LayoutContactDetails) Row(#LayoutContactDetailsRow7) Sizing(ContentHeightFitToWidth) Flow(Down)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactUsItem8) Alignment(TopCenter) Column(#LayoutContactUsColumn1) Manage(#DropdownInquiryType) Parent(#LayoutContactUs) Row(#LayoutContactUsRow1) Marginleft(16) Marginright(8) Sizing(FitToWidth) Columnspan(2) Flow(Down) Margintop(8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutDesktopItem3) Alignment(TopLeft) Column(#LayoutDesktopColumn1) Manage(#Text1) Parent(#LayoutDesktop) Row(#LayoutDesktopRow) Sizing(ContentWidthAndHeight) Flow(Down) Margintop(24) Marginleft(48)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContactUsItem6) Column(#LayoutContactUsColumn1) Manage(#Recaptcha) Parent(#LayoutContactUs) Row(#LayoutContactUsRow3) Sizing(FitToWidth) Alignment(CenterLeft) Flow(Down) Marginleft(16)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutPopUpMap)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPopUpMapRow1) Displayposition(1) Parent(#LayoutPopUpMap)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutPopUpMapColumn1) Displayposition(1) Parent(#LayoutPopUpMap)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPopUpMapItem1) Alignment(TopCenter) Column(#LayoutPopUpMapColumn1) Manage(#MapHTML) Parent(#LayoutPopUpMap) Row(#LayoutPopUpMapRow1)
+    
+    Define_Com Class(#PRIM_PANL) Name(#PanelContactDetails) Displayposition(2) Height(260) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Width(743) Layoutmanager(#LayoutContactDetails) Themedrawstyle('Card+Shadow3') Top(67) Left(48) Style(#Style4)
+    Define_Com Class(#PRIM_PANL) Name(#PanelContactUs) Displayposition(4) Height(571) Left(48) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(394) Width(743) Layoutmanager(#LayoutContactUs) Themedrawstyle('Card+Shadow3') Style(#Style4)
+    
+    * Card Headings
+    
+    * Contact Details
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelCompanyName) Caption('Contacts') Displayposition(2) Parent(#PanelContactDetails) Tabposition(5) Width(743) Themedrawstyle('ForegroundDarkPrimary+Heading3') Iconthemedrawstyle('ForegroundSecondary') Left(0) Captionmarginbottom(0) Captionmargintop(0) Paddingbottom(8) Paddingleft(16) Paddingright(16) Paddingtop(8) Captionmarginleft(0) Captionmarginright(0) Top(16)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelWebsite) Caption('https://developer.lansa.com') Displayposition(1) Parent(#PanelContactDetails) Tabposition(2) Top(52) Width(743) Height(40) Left(0) Iconthemedrawstyle('ForegroundSecondary') Icon('link') Iconmarginright(16) Iconcolor(Theme700) Iconopacity(60) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Paddingbottom(8) Paddingleft(16) Paddingright(16) Themedrawstyle('ForegroundTheme') Style(#StyleLink) Mouseoverstyle(#Style1) Captionmargintop(0) Paddingtop(8)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelAddress) Caption('My Address') Displayposition(3) Parent(#PanelContactDetails) Tabposition(4) Top(92) Width(743) Themedrawstyle('ForegroundTheme') Iconthemedrawstyle('ForegroundSecondary') Left(0) Iconmarginright(16) Iconcolor(Theme700) Iconopacity(60) Captionmarginbottom(0) Captionmargintop(0) Captionmarginright(0) Captionmarginleft(0) Paddingbottom(8) Paddingleft(16) Paddingright(16) Height(32) Icon('business') Style(#StyleLink) Mouseoverstyle(#Style1)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelEmail) Caption('Info@ContactsApp.com') Displayposition(5) Parent(#PanelContactDetails) Tabposition(1) Top(124) Width(743) Height(32) Left(0) Themedrawstyle('ForegroundMediumPrimary+ForegroundTheme') Iconthemedrawstyle('ForegroundSecondary') Icon('email') Iconmarginright(16) Iconcolor(Theme700) Iconopacity(60) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Paddingbottom(8) Paddingleft(16) Paddingright(16) Style(#StyleLink) Mouseoverstyle(#Style1) Captionmargintop(0)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelPhone) Caption('+1 630 874 7000') Displayposition(6) Parent(#PanelContactDetails) Tabposition(3) Top(156) Width(743) Height(40) Left(0) Iconthemedrawstyle('ForegroundSecondary') Icon('phone') Iconmarginright(16) Iconcolor(Theme700) Iconopacity(60) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Paddingleft(16) Paddingright(16) Themedrawstyle('ForegroundTheme') Style(#StyleLink) Mouseoverstyle(#Style1) Captionmargintop(0) Paddingbottom(16)
+    
+    * Message Input controls
+    Define_Com Class(#PRIM_MD.Edit) Name(#EditContactName) Caption('Your Name') Displayposition(2) Parent(#PanelContactUs) Tabposition(1) Top(72) Width(719) Iconthemedrawstyle('ForegroundSecondary') Left(16) Iconheight(16) Captioncolor(Theme700) Height(64)
+    Define_Com Class(#PRIM_MD.Edit) Name(#EditContactEmail) Caption('Your Email') Displayposition(4) Parent(#PanelContactUs) Tabposition(3) Top(216) Width(719) Iconthemedrawstyle('ForegroundSecondary') Left(16) Iconheight(16) Captioncolor(Theme700) Height(64)
+    Define_Com Class(#PRIM_MD.Edit) Name(#EditContactSubject) Caption('Subject') Displayposition(5) Parent(#PanelContactUs) Tabposition(4) Top(288) Width(719) Iconthemedrawstyle('ForegroundSecondary') Left(16) Iconheight(16) Captioncolor(Theme700) Height(64)
+    Define_Com Class(#PRIM_MD.Edit) Name(#EditContactMessage) Caption('Message') Displayposition(6) Height(83) Multiline(True) Parent(#PanelContactUs) Tabposition(5) Top(352) Width(719) Iconthemedrawstyle('ForegroundSecondary') Left(16) Iconheight(16) Captioncolor(Theme700)
+    Define_Com Class(#PRIM_MD.Edit) Name(#EditContactPhone) Caption('Your Phone') Displayposition(3) Parent(#PanelContactUs) Tabposition(2) Top(144) Width(719) Iconthemedrawstyle('ForegroundSecondary') Left(16) Iconheight(16) Captioncolor(Theme700) Height(64)
+    Define_Com Class(#PRIM_MD.FlatButton) Name(#ButtonContactUs) Caption('Send') Displayposition(8) Parent(#PanelContactUs) Tabposition(7) Themedrawstyle('Borders1+BorderTheme500+ForegroundMediumPrimary') Top(523) Width(719) Left(16) Height(40) Captionmarginbottom(0) Captionmarginleft(0) Captionmargintop(0) Captionmarginright(0)
+    Define_Com Class(#PRIM_MD.Dropdown) Name(#DropdownInquiryType) Caption('Inquiry Type') Displayposition(1) Left(16) Parent(#PanelContactUs) Tabposition(8) Top(8) Width(719) Height(64) Captioncolor(Theme700)
+    Define_Com Class(#PRIM_PANL) Name(#Panel) Displayposition(5) Height(4) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Width(839)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text) Caption('Contact Us Direct') Parent(#COM_OWNER) Themedrawstyle('Heading1+Text(255,255,255,1)+ForegroundMediumPrimary+Heading2+DarkTitle') Top(351) Width(184) Height(43) Displayposition(3) Paddingbottom(8) Paddingleft(16) Paddingright(16) Paddingtop(8) Left(48) Tabposition(4)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text1) Caption('Find Us') Left(48) Parent(#COM_OWNER) Themedrawstyle('Heading1+Text(255,255,255,1)+ForegroundMediumPrimary+Heading2+DarkAccent') Height(43) Displayposition(1) Paddingbottom(8) Paddingleft(16) Paddingright(16) Paddingtop(8) Top(24) Tabposition(5)
+    Define_Com Class(#PRIM_MD.Icon) Name(#IconTwitter) Icon('fa-twitter') Left(343) Parent(#PanelContactDetails) Top(196) Iconheight(32) Displayposition(7) Tabposition(6) Style(#Style5) Height(56) Width(56) Mouseoverstyle(#Style6) Themedrawstyle('Shadow2')
+    Define_Com Class(#PRIM_MD.Icon) Name(#IconFacebook) Icon('fa-facebook') Left(263) Parent(#PanelContactDetails) Top(196) Iconheight(32) Displayposition(4) Style(#Style5) Tabposition(7) Height(56) Width(56) Mouseoverstyle(#Style6) Themedrawstyle('Shadow2')
+    Define_Com Class(#PRIM_MD.Icon) Name(#IconLinkedIn) Icon('fa-linkedin') Left(423) Parent(#PanelContactDetails) Top(196) Iconheight(32) Displayposition(8) Tabposition(8) Style(#Style5) Height(56) Width(56) Mouseoverstyle(#Style6) Themedrawstyle('Shadow2')
+    Define_Com Class(#XWS_Google_RecaptchaV2Visual) Name(#Recaptcha) Displayposition(7) Parent(#PanelContactUs) Tabposition(6) Tabstop(False) Top(435) Height(80) Width(727) Left(16)
+    
+    
+    Define_Com Class(#PRIM_PPNL) Name(#PopupMap) Height(500) Width(650) Closeonclick(True) Closebutton(True) Titlebar(True) Layoutmanager(#LayoutPopUpMap)
+    Define_Com Class(#prim_web.HtmlContainer) Name(#MapHTML) Displayposition(1) Tabstop(False) Parent(#PopupMap) Tabposition(1) Html('<html><iframe width=''100%'' height=''100%'' id=''mapcanvas'' src=''https://maps.google.com/maps?q=2001%20Butterfield%20Road,%20Downers%20Grove,%20IL,%2060515,%20,%20USA&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed'' frameborder=''0'' scrolling=''no'' marginheight=''0'' marginwidth=''0''></iframe></html>') Height(479) Top(30) Width(597)
+    
+    Define_Evt Name(MessageStatus)
+    Define_Map For(*INPUT) Class(#PRIM_ALPH) Name(#Message)
+    
+    Define_Com Class(#PRIM_BOLN) Name(#RecaptchaVisualized)
+    * ************** *
+    * Event Routines *
+    * ************** *
+    
+    Evtroutine Handling(#COM_OWNER.Prepare)
+    
+    #LabelAddress := "2001 Butterfield Road" + "," + (10).asUnicodeString + "Downers Grove" + "," + (10).asUnicodeString + "IL, 60515" + "," + (10).asUnicodeString + "USA"
+    
+    
+    #dropdownInquiryType.Items.Add( "GENR" "General" )
+    #dropdownInquiryType.Items.Add( "HELP" "Help" )
+    #dropdownInquiryType.Items.Add( "SALE" "Sales & Marketing" )
+    #dropdownInquiryType.Items.Add( "SUPP" "Support" )
+    #dropdownInquiryType.Items.Add( "FEAT" "Feature Request" )
+    
+    #dropdownInquiryType := "GENR"
+    
+    If (#RecaptchaVisualized.Not)
+     
+    #Recaptcha.Visualize
+    
+    #RecaptchaVisualized := True
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#SYS_WEB.DeviceChanged)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #COM_OWNER.LayoutManager <= #LayoutMobile
+    
+    Else
+    
+    #COM_OWNER.LayoutManager <= #LayoutDesktop
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonContactUs.Click)
+    Define_Com Class(#CT2DataServer.ContactUs) Name(#Contact)
+    Define_Com Class(#PRIM_BOLN) Name(#Result)
+    
+    * This uses Recaptcha API
+    * Go to 'https://www.google.com/recaptcha/admin' to register and configure Recaptcha
+    * Use Package manager to apply the API key(s) to your applications
+    
+    If (#COM_OWNER.ValidateContactDetails)
+    
+    #COM_OWNER.AmIaRobot
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#LabelEmail.Click)
+    
+    Define_Com Class(#prim_str) Name(#QuickEmail)
+    
+    #QuickEmail := ("mailto:&1").Substitute( #LabelEmail )
+    
+    #sys_web.Navigate( #QuickEmail Current )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LabelPhone.Click)
+    Define_Com Class(#prim_str) Name(#Call)
+    
+    #Call := ("tel:&1").Substitute( #LabelPhone )
+    
+    #sys_web.Navigate( #Call Current )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LabelWebsite.Click)
+    
+    #sys_web.Navigate( #LabelWebsite New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#IconFacebook.Click)
+    
+    #SYS_WEB.Navigate( 'https://www.facebook.com/lansasoftware/' New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#IconTwitter.Click)
+    
+    #SYS_WEB.Navigate( 'https://twitter.com/lansa?lang=en' New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#IconLinkedIn.Click)
+    
+    #SYS_WEB.Navigate( 'https://au.linkedin.com/company/lansa' New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LabelAddress.Click)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #PopupMap.Height := #SYS_WEB.WebPage.Height
+    #PopupMap.Width := #SYS_WEB.WebPage.Width
+    #PopupMap.ShowPopup Placement(Absolute) Transition(SlideInLeft) Left(0) Top(0)
+    
+    Else
+    
+    #PopupMap.Height := 500
+    #PopupMap.Width := 600
+    #PopupMap.ShowPopup Transition(SlideInLeft) Placement(Center)
+    
+    Endif
+    
+    Endroutine
+    
+    
+    Evtroutine Handling(#EditContactName.Changed #EditContactMessage.Changed #EditContactEmail.Changed #EditContactSubject.Changed) Com_Sender(#Sender)
+    
+    #Sender.ClearError
+    
+    Endroutine
+    
+    Evtroutine Handling(#Recaptcha.OnError) Message(#Message)
+    
+    #sys_web.Alert( #Message )
+    
+    Endroutine
+    
+    
+    * *************** *
+    * Method Routines *
+    * *************** *
+    
+    Mthroutine Name(ValidateContactDetails)
+    Define_Map For(*RESULT) Class(#PRIM_BOLN) Name(#Continue)
+    
+    #Continue := True
+    
+    If (#EditContactEmail = *BLANKS)
+    
+    #EditContactEmail.ShowError Errortext('Email Address must be specified.')
+    #Continue := False
+    
+    Else
+    
+    If (*Not #EditContactEmail.Value.IsValidEmail)
+    
+    #EditContactEmail.ShowError Errortext('Email Address Supplied is not valid')
+    #Continue := False
+    
+    Endif
+    
+    Endif
+    
+    If (#EditContactName = *BLANKS)
+    
+    #EditContactName.ShowError Errortext('Name must be specified.')
+    #Continue := False
+    
+    Endif
+    
+    If (#EditContactMessage = *BLANKS)
+    
+    #EditContactMessage.ShowError Errortext('Message must be specified.')
+    #Continue := False
+    
+    Endif
+    
+    If (#EditContactSubject = *BLANKS)
+    
+    #EditContactSubject.ShowError Errortext('Subject must be specified.')
+    #Continue := False
+    
+    Endif
+    
+    
+    Endroutine
+    
+    
+    Mthroutine Name(AmIaRobot)
+    * Create an instance of the server module that will validate the reCAPTCHA's response string
+    Define_Com Class(#CT2DataServer.ValidateRecaptcha) Name(#SubmitData)
+    
+    Define_Com Class(#PRIM_BOLN) Name(#OK)
+    
+    * This is where you'd generally submit your form (invoke a server module's routine)
+    * together with the reCAPTCHA response string
+    * The server module will validate the reCAPTCHA response string
+    #SubmitData.Execute Response(#Recaptcha.Response) Ok(#OK)
+    
+    Evtroutine Handling(#SubmitData.Completed)
+    
+    If (#OK)
+    
+    #COM_OWNER.SendMessage
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    
+    Mthroutine Name(SendMessage)
+    Define_Com Class(#CT2DataServer.ContactUs) Name(#Contact)
+    Define_Com Class(#PRIM_BOLN) Name(#Result)
+    
+    #Contact.Execute Email(#EditContactEmail) Name(#EditContactName) Phone(#EditContactPhone) Subject(#EditContactSubject) Message(#EditContactMessage) Inquirytype(#dropdownInquiryType) Result(#Result)
+    
+    If (#Result = True)
+    
+    #EditContactName #EditContactMessage #EditContactEmail #EditContactSubject #EditContactPhone #EditContactMessage := ""
+    #dropdownInquiryType := "GENR"
+    Signal Event(MessageStatus) Message('Message has been sent')
+    
+    Else
+    
+    Signal Event(MessageStatus) Message('Message could not be sent at this time. Please try again later.')
+    
+    Endif
+    
+    Endroutine
+    
+    
+    End_Com
+    

@@ -1,0 +1,195 @@
+﻿Web View:
+  Name:               CT2Settings
+  Enabled For RDMLX:  Yes
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Contacts Settings"
+
+  - FRA:
+      Description:        "Contacts Settings"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_VIEW) Displayposition(1) Height(497) Width(985) Verticalscroll(True) Layoutmanager(#LayoutMain) Tabposition(1)
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleRed) Normbackcolor(244:67:54)
+    Define_Com Class(#PRIM_VS.Style) Name(#StylePink) Normbackcolor(233:30:99)
+    Define_Com Class(#PRIM_VS.Style) Name(#StylePurple) Normbackcolor(156:39:176)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleDeepPurple) Normbackcolor(103:58:183)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleIndigo) Normbackcolor(63:81:181)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleBlue) Normbackcolor(33:150:243)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLightBlue) Normbackcolor(3:169:244)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleCyan) Normbackcolor(0:188:212)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleTeal) Normbackcolor(0:150:136)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleGreen) Normbackcolor(76:175:80)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLightGreen) Normbackcolor(139:195:74)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLime) Normbackcolor(205:220:57)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleYellow) Normbackcolor(255:235:59)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleAmber) Normbackcolor(255:193:7)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleOrange) Normbackcolor(255:152:0)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleDeepOrange) Normbackcolor(255:87:34)
+    
+    * Layout - Main
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutRow1) Displayposition(1) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutColumn1) Displayposition(1) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopCenter) Column(#LayoutColumn1) Manage(#DarkBackgroundSwitch) Parent(#LayoutMain) Row(#LayoutRow1) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopCenter) Column(#LayoutColumn1) Manage(#PanelThemeColors) Parent(#LayoutMain) Row(#LayoutRow1) Sizing(ContentHeightFitToWidth) Flow(Down) Marginleft(25) Marginright(25) Marginbottom(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem1) Alignment(TopCenter) Column(#LayoutColumn1) Manage(#LabelTheme) Parent(#LayoutMain) Row(#LayoutRow1) Sizing(FitToWidth) Flow(Down)
+    
+    * Layout - Theme Colors
+    Define_Com Class(#PRIM_FWLM) Name(#LayoutThemeColors) Spacingitems(20)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem1) Manage(#PanelRed) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem2) Manage(#PanelPink) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem3) Manage(#PanelPurple) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem4) Manage(#PanelDeepPurple) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem5) Manage(#PanelIndigo) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem6) Manage(#PanelBlue) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem7) Manage(#PanelLightBlue) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem8) Manage(#PanelCyan) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem9) Manage(#PanelTeal) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem10) Manage(#PanelGreen) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem11) Manage(#PanelLightGreen) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem12) Manage(#PanelLime) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem13) Manage(#PanelYellow) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem14) Manage(#PanelAmber) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem15) Manage(#PanelOrange) Parent(#LayoutThemeColors)
+    Define_Com Class(#PRIM_FWLI) Name(#LayoutThemeColorsItem16) Manage(#PanelDeepOrange) Parent(#LayoutThemeColors)
+    
+    * Controls
+    Define_Com Class(#PRIM_PANL) Name(#PanelThemeColors) Displayposition(2) Left(25) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(50) Width(935) Layoutmanager(#LayoutThemeColors) Height(110)
+    Define_Com Class(#PRIM_PANL) Name(#PanelRed) Displayposition(1) Parent(#PanelThemeColors) Tabposition(16) Tabstop(False) Style(#StyleRed) Left(0) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelPink) Displayposition(2) Left(70) Parent(#PanelThemeColors) Tabposition(15) Tabstop(False) Style(#StylePink) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelPurple) Displayposition(3) Left(140) Parent(#PanelThemeColors) Tabposition(14) Tabstop(False) Style(#StylePurple) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelDeepPurple) Displayposition(4) Left(210) Parent(#PanelThemeColors) Tabposition(13) Tabstop(False) Style(#StyleDeepPurple) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelIndigo) Displayposition(5) Left(280) Parent(#PanelThemeColors) Tabposition(12) Tabstop(False) Style(#StyleIndigo) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelBlue) Displayposition(6) Left(350) Parent(#PanelThemeColors) Tabposition(11) Tabstop(False) Style(#StyleBlue) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelLightBlue) Displayposition(7) Left(420) Parent(#PanelThemeColors) Tabposition(10) Tabstop(False) Style(#StyleLightBlue) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelCyan) Displayposition(8) Left(490) Parent(#PanelThemeColors) Tabposition(9) Tabstop(False) Style(#StyleCyan) Top(0)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelTheme) Caption('Theme') Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(3) Top(0) Height(50) Paddingleft(25) Width(985)
+    Define_Com Class(#PRIM_PANL) Name(#PanelTeal) Displayposition(9) Left(560) Parent(#PanelThemeColors) Tabposition(8) Tabstop(False) Style(#StyleTeal) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelGreen) Displayposition(10) Left(630) Parent(#PanelThemeColors) Tabposition(7) Tabstop(False) Style(#StyleGreen) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelLightGreen) Displayposition(11) Left(700) Parent(#PanelThemeColors) Tabposition(6) Tabstop(False) Style(#StyleLightGreen) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelLime) Displayposition(12) Left(770) Parent(#PanelThemeColors) Tabposition(5) Tabstop(False) Style(#StyleLime) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelYellow) Displayposition(13) Left(840) Parent(#PanelThemeColors) Tabposition(4) Tabstop(False) Style(#StyleYellow) Top(0)
+    Define_Com Class(#PRIM_PANL) Name(#PanelAmber) Displayposition(14) Left(0) Parent(#PanelThemeColors) Tabposition(3) Tabstop(False) Style(#StyleAmber) Top(60)
+    Define_Com Class(#PRIM_PANL) Name(#PanelOrange) Displayposition(15) Left(70) Parent(#PanelThemeColors) Tabposition(2) Tabstop(False) Style(#StyleOrange) Top(60)
+    Define_Com Class(#PRIM_PANL) Name(#PanelDeepOrange) Displayposition(16) Left(140) Parent(#PanelThemeColors) Tabposition(1) Tabstop(False) Style(#StyleDeepOrange) Top(60)
+    Define_Com Class(#PRIM_MD.Switch) Name(#DarkBackgroundSwitch) Caption('Dark background') Displayposition(3) Height(50) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Iconalignment(CenterRight) Width(985) Top(180) Themedrawstyle('BottomDivider+TopDivider') Paddingleft(25) Paddingright(25) Iconcolor(Theme500)
+    
+    * ************** *
+    * Event Routines *
+    * ************** *
+    
+    Evtroutine Handling(#PanelRed.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignRed>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelPink.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignPink>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelPurple.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignPurple>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelDeepPurple.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignDeepPurple>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelIndigo.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignIndigo>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelBlue.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignBlue>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelLightBlue.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignLightBlue>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelCyan.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignCyan>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelTeal.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignTeal>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelGreen.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignGreen>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelLightGreen.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignLightGreen>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelLime.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignLime>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelYellow.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignYellow>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelAmber.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignAmber>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelOrange.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignOrange>
+    
+    Endroutine
+    
+    Evtroutine Handling(#PanelDeepOrange.Click)
+    
+    #SYS_WEB.WebPage.Theme <= #SYS_THEME<MaterialDesignDeepOrange>
+    
+    Endroutine
+    
+    Evtroutine Handling(#DarkBackgroundSwitch.Changed)
+    
+    If (#SYS_WEB.WebPage.ThemeBackground = Light)
+    
+    #SYS_WEB.WebPage.ThemeBackground := Dark
+    
+    Else
+    
+    #SYS_WEB.WebPage.ThemeBackground := Light
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

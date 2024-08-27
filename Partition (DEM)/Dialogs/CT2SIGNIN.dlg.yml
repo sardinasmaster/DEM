@@ -1,0 +1,948 @@
+﻿Web Dialog:
+  Name:               CT2SignIn
+  Enabled For RDMLX:  Yes
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Contacts SignIn Dialog"
+
+  - FRA:
+      Description:        "Contacts SignIn Dialog"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_DLG) Height(761) Width(1225) Verticalscroll(True) Placement(FullScreen) Themedrawstyle('Back(255,255,255,1)') Layoutmanager(#LayoutMainMobile)
+    
+    * Local Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#StylePanels) Borderbottom(0) Borderleft(0) Borderright(1) Bordertop(0) Borderbrush(#BrushPanelsBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushPanelsBorder) Color(120:120:120)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLink) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleHeading) Fontunits(Pixel) Fontsize(72) Bold(False)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLoginOptionsLinked) Fontsize(23) Fontunits(Pixel) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLoginOptions) Fontunits(Pixel) Fontsize(23)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleButton) Backgroundbrush(#BrushButtonBackground) Borderbottom(1) Borderleft(1) Borderright(1) Bordertop(1) Foregroundbrush(#BrushButtonForeground) Shape(Rounded) Borderbrush(#BrushButtonBorder) Fontsize(20) Fontunits(Pixel)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushButtonBorder) Color(Theme500)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushButtonForeground) Color(Theme500)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushButtonBackground) Color(255:255:255)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleButtonMouseOver) Backgroundbrush(#BrushButtonMouseOverBackground) Foregroundbrush(#BrushButtonMouseOverForeground) Fontsize(20) Fontunits(Pixel)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushButtonMouseOverForeground) Color(255:255:255)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushButtonMouseOverBackground) Color(Theme500)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleHeadingLink) Fontsize(23) Fontunits(Pixel)
+    
+    
+    * Layouts
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutPanelLogin)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutPanelLoginColumn1) Displayposition(1) Parent(#LayoutPanelLogin)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelLoginRow1) Displayposition(1) Parent(#LayoutPanelLogin)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelLoginRow2) Displayposition(2) Parent(#LayoutPanelLogin) Height(160) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelLoginRow3) Displayposition(3) Parent(#LayoutPanelLogin) Height(114) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelLoginRow4) Displayposition(4) Parent(#LayoutPanelLogin) Height(8) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelLoginRow5) Displayposition(5) Parent(#LayoutPanelLogin)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelLoginItem1) Manage(#Edit_SignInUserName) Parent(#LayoutPanelLogin) Row(#LayoutPanelLoginRow2) Sizing(FitToWidth) Alignment(TopCenter) Flow(Down) Column(#LayoutPanelLoginColumn1) Marginright(24)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelLoginItem2) Manage(#Edit_SignInPassword) Parent(#LayoutPanelLogin) Row(#LayoutPanelLoginRow2) Sizing(FitToWidth) Alignment(TopCenter) Flow(Down) Column(#LayoutPanelLoginColumn1) Marginright(24)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelLoginItem3) Manage(#TextGuest) Parent(#LayoutPanelLogin) Row(#LayoutPanelLoginRow3) Sizing(None) Column(#LayoutPanelLoginColumn1) Alignment(TopRight) Flow(Down) Marginright(24) Margintop(43)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelLoginItem4) Manage(#Text) Parent(#LayoutPanelLogin) Row(#LayoutPanelLoginRow3) Sizing(None) Column(#LayoutPanelLoginColumn1) Alignment(TopRight) Flow(Down) Margintop(4) Marginright(40)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelLoginItem5) Manage(#CheckBox_RememberMe) Parent(#LayoutPanelLogin) Row(#LayoutPanelLoginRow3) Sizing(None) Column(#LayoutPanelLoginColumn1) Alignment(TopLeft) Flow(Down) Margintop(8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelLoginItem6) Manage(#ButtonSignIn) Parent(#LayoutPanelLogin) Row(#LayoutPanelLoginRow3) Sizing(None) Alignment(TopLeft) Flow(Down) Column(#LayoutPanelLoginColumn1) Margintop(40)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutPanelSignUp)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutPanelSignUpColumn1) Displayposition(1) Parent(#LayoutPanelSignUp)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelSignUpRow1) Displayposition(1) Parent(#LayoutPanelSignUp)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelSignUpRow2) Displayposition(2) Parent(#LayoutPanelSignUp) Height(320) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelSignUpRow3) Displayposition(3) Parent(#LayoutPanelSignUp) Height(50) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelSignUpRow4) Displayposition(4) Parent(#LayoutPanelSignUp) Height(8) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutPanelSignUpRow5) Displayposition(5) Parent(#LayoutPanelSignUp)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelSignUpItem1) Alignment(TopLeft) Column(#LayoutPanelSignUpColumn1) Manage(#Edit_ConfirmPassword) Parent(#LayoutPanelSignUp) Row(#LayoutPanelSignUpRow2) Sizing(FitToWidth) Flow(Down) Marginright(24)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelSignUpItem2) Alignment(TopLeft) Column(#LayoutPanelSignUpColumn1) Manage(#Edit_RegisterPassword) Parent(#LayoutPanelSignUp) Row(#LayoutPanelSignUpRow2) Sizing(FitToWidth) Flow(Down) Marginright(24)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelSignUpItem3) Alignment(TopLeft) Column(#LayoutPanelSignUpColumn1) Manage(#Edit_RegisterEmail) Parent(#LayoutPanelSignUp) Row(#LayoutPanelSignUpRow2) Sizing(FitToWidth) Flow(Down) Marginright(24)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelSignUpItem4) Alignment(TopLeft) Column(#LayoutPanelSignUpColumn1) Manage(#Edit_RegisterUser) Parent(#LayoutPanelSignUp) Row(#LayoutPanelSignUpRow2) Sizing(FitToWidth) Flow(Down) Marginright(24)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPanelSignUpItem5) Manage(#ButtonRegister) Parent(#LayoutPanelSignUp) Row(#LayoutPanelSignUpRow3) Sizing(None) Column(#LayoutPanelSignUpColumn1) Alignment(TopLeft) Margintop(8)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutConfirmationPopUp)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutConfirmationPopUpRow1) Displayposition(1) Parent(#LayoutConfirmationPopUp) Height(56) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutConfirmationPopUpColumn1) Displayposition(1) Parent(#LayoutConfirmationPopUp)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutConfirmationPopUpRow2) Displayposition(2) Parent(#LayoutConfirmationPopUp)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutConfirmationPopUpItem1) Alignment(TopCenter) Column(#LayoutConfirmationPopUpColumn1) Manage(#Text1) Parent(#LayoutConfirmationPopUp) Row(#LayoutConfirmationPopUpRow1) Sizing(ContentWidthAndHeight) Margintop(16)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutConfirmationPopUpItem2) Alignment(BottomRight) Column(#LayoutConfirmationPopUpColumn1) Flow(Left) Manage(#ButtonCancel) Parent(#LayoutConfirmationPopUp) Row(#LayoutConfirmationPopUpRow2) Sizing(None) Marginbottom(8) Marginright(8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutConfirmationPopUpItem3) Alignment(BottomRight) Column(#LayoutConfirmationPopUpColumn1) Flow(Left) Manage(#ButtonOK) Parent(#LayoutConfirmationPopUp) Row(#LayoutConfirmationPopUpRow2) Sizing(None) Marginbottom(8) Marginright(8)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutMainDesktop)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainDesktopColumn1) Displayposition(1) Parent(#LayoutMainDesktop)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainDesktopColumn2) Displayposition(2) Parent(#LayoutMainDesktop) Units(Pixels) Width(400)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainDesktopColumn3) Displayposition(3) Parent(#LayoutMainDesktop) Units(Pixels) Width(400)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainDesktopColumn4) Displayposition(4) Parent(#LayoutMainDesktop)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainDesktopRow1) Displayposition(1) Parent(#LayoutMainDesktop) Height(85) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainDesktopRow2) Displayposition(2) Parent(#LayoutMainDesktop) Height(151) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainDesktopRow3) Displayposition(3) Parent(#LayoutMainDesktop) Height(378) Units(Content) Minheight(379)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainDesktopRow4) Displayposition(4) Parent(#LayoutMainDesktop) Height(10)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainDesktopRow5) Displayposition(5) Parent(#LayoutMainDesktop) Height(23) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem1) Manage(#PanelSignIn) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Column(#LayoutMainDesktopColumn2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem2) Manage(#PanelRegister) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Sizing(ContentHeightFitToWidth) Column(#LayoutMainDesktopColumn2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem3) Manage(#PanelHeading) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow2) Column(#LayoutMainDesktopColumn2) Columnspan(2) Sizing(ContentHeightFitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem4) Manage(#AlternateLoginsDesktop) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Sizing(ContentHeightFitToWidth) Column(#LayoutMainDesktopColumn3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem5) Column(#LayoutMainDesktopColumn1) Manage(#TextAppName) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow1) Sizing(ContentWidth) Alignment(BottomCenter) Marginleft(48)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem6) Column(#LayoutMainDesktopColumn2) Manage(#Text4) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow5) Sizing(ContentWidthAndHeight) Columnspan(2) Alignment(BottomCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem7) Column(#LayoutMainDesktopColumn2) Manage(#TextStatus) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow4) Sizing(ContentHeightFitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem9) Alignment(TopRight) Column(#LayoutMainDesktopColumn1) Manage(#TagSignInPassword) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Sizing(None) Flow(Down) Margintop(133) Marginright(-8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem8) Alignment(TopRight) Column(#LayoutMainDesktopColumn1) Manage(#TagRegisterUser) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Sizing(None) Marginright(-8) Margintop(7)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem13) Alignment(TopRight) Column(#LayoutMainDesktopColumn1) Manage(#TagSignInUser) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Sizing(None) Margintop(51) Marginright(-8)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutMainMobile)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainMobileColumn1) Displayposition(1) Parent(#LayoutMainMobile) Units(Pixels) Width(16)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainMobileColumn2) Displayposition(2) Parent(#LayoutMainMobile)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainMobileColumn3) Displayposition(3) Parent(#LayoutMainMobile) Units(Pixels) Width(16)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainMobileRow1) Displayposition(1) Parent(#LayoutMainMobile) Height(85) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainMobileRow2) Displayposition(2) Parent(#LayoutMainMobile) Height(151) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainMobileRow3) Displayposition(3) Parent(#LayoutMainMobile) Height(379) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainMobileRow4) Displayposition(4) Parent(#LayoutMainMobile) Height(50) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainMobileRow5) Displayposition(5) Parent(#LayoutMainMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainMobileRow6) Displayposition(6) Parent(#LayoutMainMobile) Height(26) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem1) Manage(#PanelHeading) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow2) Sizing(ContentHeightFitToWidth) Column(#LayoutMainMobileColumn2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem2) Manage(#PanelSignIn) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow3) Sizing(FitToWidth) Column(#LayoutMainMobileColumn2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem3) Manage(#PanelRegister) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow3) Sizing(FitToWidth) Column(#LayoutMainMobileColumn2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem4) Manage(#AlternateLoginsMobile) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow4) Sizing(FitToWidth) Column(#LayoutMainMobileColumn2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem5) Alignment(CenterLeft) Column(#LayoutMainMobileColumn2) Manage(#TextAppName) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem6) Alignment(BottomCenter) Column(#LayoutMainMobileColumn2) Manage(#Text4) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow6) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem7) Manage(#TextStatus) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow5) Sizing(None) Column(#LayoutMainMobileColumn2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem8) Manage(#TagRegisterUser) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow3) Sizing(None) Column(#LayoutMainMobileColumn1) Alignment(TopLeft) Margintop(15)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem9) Manage(#TagRegisterEmail) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow3) Sizing(None) Column(#LayoutMainMobileColumn1) Alignment(TopLeft) Margintop(93)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem10) Manage(#TagSignInPassword) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow3) Sizing(None) Column(#LayoutMainMobileColumn1) Alignment(TopLeft) Margintop(143)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem11) Manage(#TagRegisterPassword) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow3) Sizing(None) Column(#LayoutMainMobileColumn1) Alignment(TopLeft) Margintop(175)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem12) Manage(#TagRegisterPasswordConfirm) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow3) Sizing(None) Column(#LayoutMainMobileColumn1) Alignment(TopLeft) Margintop(252)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainMobileItem13) Manage(#TagSignInUser) Parent(#LayoutMainMobile) Row(#LayoutMainMobileRow3) Sizing(None) Column(#LayoutMainMobileColumn1) Alignment(TopLeft) Margintop(64)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutHeading)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutHeadingColumn1) Displayposition(1) Parent(#LayoutHeading)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutHeadingRow1) Displayposition(1) Parent(#LayoutHeading) Height(103) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutHeadingRow2) Displayposition(2) Parent(#LayoutHeading) Height(48) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutHeadingItem1) Alignment(TopCenter) Column(#LayoutHeadingColumn1) Manage(#Text2) Parent(#LayoutHeading) Row(#LayoutHeadingRow1) Sizing(ContentHeightFitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutHeadingItem2) Column(#LayoutHeadingColumn1) Manage(#TextSignUp2) Parent(#LayoutHeading) Row(#LayoutHeadingRow2) Sizing(ContentWidthAndHeight) Flow(CenterHorizontal)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutHeadingItem3) Column(#LayoutHeadingColumn1) Manage(#TextSignUp1) Parent(#LayoutHeading) Row(#LayoutHeadingRow2) Sizing(ContentWidthAndHeight) Flow(CenterHorizontal)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutHeadingItem4) Column(#LayoutHeadingColumn1) Manage(#TextLogin2) Parent(#LayoutHeading) Row(#LayoutHeadingRow2) Sizing(ContentWidthAndHeight) Flow(CenterHorizontal)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutHeadingItem5) Column(#LayoutHeadingColumn1) Manage(#TextLogin1) Parent(#LayoutHeading) Row(#LayoutHeadingRow2) Sizing(ContentWidthAndHeight) Flow(CenterHorizontal)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutAlternateLogins)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Layout1Row1) Displayposition(1) Parent(#LayoutAlternateLogins) Height(50) Units(Content) Minheight(132)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Layout1Column1) Displayposition(1) Parent(#LayoutAlternateLogins)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Layout1Item1) Column(#Layout1Column1) Manage(#FacebookButton) Parent(#LayoutAlternateLogins) Row(#Layout1Row1) Sizing(FitToWidth) Flow(CenterVertical) Marginbottom(8) Margintop(8) Alignment(CenterLeft) Marginleft(40) Marginright(40)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Layout1Item2) Column(#Layout1Column1) Manage(#GoogleButton) Parent(#LayoutAlternateLogins) Row(#Layout1Row1) Sizing(FitToWidth) Flow(CenterVertical) Marginbottom(8) Margintop(8) Alignment(CenterLeft) Marginleft(40) Marginright(40)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutAlternateLoginMobile)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutAlternateLoginMobileColumn1) Displayposition(1) Parent(#LayoutAlternateLoginMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutAlternateLoginMobileRow1) Displayposition(1) Parent(#LayoutAlternateLoginMobile)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutAlternateLoginMobileItem1) Alignment(CenterRight) Flow(Left) Manage(#GoogleButtonMobile) Parent(#LayoutAlternateLoginMobile) Sizing(None) Column(#LayoutAlternateLoginMobileColumn1) Row(#LayoutAlternateLoginMobileRow1) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutAlternateLoginMobileItem2) Alignment(CenterRight) Flow(Left) Manage(#FacebookButtonMobile) Parent(#LayoutAlternateLoginMobile) Sizing(None) Column(#LayoutAlternateLoginMobileColumn1) Row(#LayoutAlternateLoginMobileRow1) Marginright(40)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutAlternateLoginMobileItem3) Alignment(CenterLeft) Column(#LayoutAlternateLoginMobileColumn1) Manage(#Text3) Parent(#LayoutAlternateLoginMobile) Row(#LayoutAlternateLoginMobileRow1) Sizing(ContentWidthAndHeight) Marginleft(4)
+    
+    * Local Components
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem10) Alignment(TopRight) Column(#LayoutMainDesktopColumn1) Manage(#TagRegisterEmail) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Sizing(None) Margintop(89) Marginright(-8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem11) Alignment(TopRight) Column(#LayoutMainDesktopColumn1) Manage(#TagRegisterPassword) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Sizing(None) Margintop(171) Marginright(-8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainDesktopItem12) Alignment(TopRight) Column(#LayoutMainDesktopColumn1) Manage(#TagRegisterPasswordConfirm) Parent(#LayoutMainDesktop) Row(#LayoutMainDesktopRow3) Sizing(None) Margintop(248) Marginright(-8)
+    Define_Com Class(#PRIM_PANL) Name(#PanelSignIn) Displayposition(13) Height(379) Left(16) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(236) Width(1191) Layoutmanager(#LayoutPanelLogin) Style(#StylePanels)
+    Define_Com Class(#xUsername.EditField) Name(#Edit_SignInUserName) Displayposition(1) Left(0) Parent(#PanelSignIn) Tabposition(1) Width(1166) Caption('Username or Email') Captiontype(Caption) Themedrawstyle('ForegroundTheme') Captioncolor(22:45:61) Placeholdercolor(22:45:61) Prompticoncolor(Theme500) Helpercolor(22:45:61) Iconopacity(80) Iconthemedrawstyle('ForegroundLightPrimary') Height(80) Top(49)
+    Define_Com Class(#xPassword.EditField) Name(#Edit_SignInPassword) Caption('Password') Displayposition(2) Left(0) Parent(#PanelSignIn) Passwordchar('*') Tabposition(2) Top(129) Width(1166) Prompticon('fa-eye') Themedrawstyle('ForegroundTheme') Captioncolor(22:45:61) Placeholdercolor(22:45:61) Prompticoncolor(22:45:61) Prompticonopacity(60) Iconopacity(80) Iconthemedrawstyle('Title+ForegroundLightPrimary') Iconimagesizing(None) Height(80)
+    Define_Com Class(#PRIM_MD.CheckBox) Name(#CheckBox_RememberMe) Caption('Remember me') Displayposition(3) Iconcolor(Theme500) Left(0) Parent(#PanelSignIn) Tabposition(3) Top(217) Width(180) Height(24) Themedrawstyle('ForegroundTheme')
+    Define_Com Class(#PRIM_MD.Label) Name(#Text) Caption('Forgot Password?') Displayposition(5) Parent(#PanelSignIn) Themedrawstyle('ForegroundTheme') Top(213) Width(113) Height(25) Tabposition(4) Paddingtop(8) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Captionmargintop(0) Iconthemedrawstyle('ForegroundLightPrimary') Iconopacity(80) Iconalignment(AfterCaption) Iconmarginleft(12) Left(1037) Style(#StyleLink)
+    Define_Com Class(#PRIM_MD.RaisedButton) Name(#ButtonSignIn) Caption('Sign in') Displayposition(4) Left(0) Parent(#PanelSignIn) Tabposition(5) Top(281) Style(#StyleButton) Mouseoverstyle(#StyleButtonMouseOver) Height(42) Width(140)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextGuest) Caption('Continue as Guest') Displayposition(6) Parent(#PanelSignIn) Themedrawstyle('ForegroundTheme') Top(281) Width(118) Height(37) Paddingbottom(8) Paddingtop(8) Left(1048) Tabposition(6) Style(#StyleLink)
+    
+    Define_Com Class(#PRIM_PANL) Name(#PanelRegister) Displayposition(14) Height(378) Left(16) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(236) Width(1191) Layoutmanager(#LayoutPanelSignUp) Style(#StylePanels) Visible(False)
+    Define_Com Class(#xUsername.EditField) Name(#Edit_RegisterUser) Caption('User Name') Displayposition(1) Left(0) Parent(#PanelRegister) Tabposition(1) Top(0) Width(1166) Themedrawstyle('ForegroundTheme') Captioncolor(22:45:61) Placeholdercolor(22:45:61) Helpercolor(22:45:61) Prompticoncolor(22:45:61) Iconopacity(80) Iconthemedrawstyle('ForegroundLightPrimary') Height(80)
+    Define_Com Class(#xEmail.EditField) Name(#Edit_RegisterEmail) Caption('Email') Displayposition(2) Left(0) Parent(#PanelRegister) Tabposition(2) Top(80) Width(1166) Themedrawstyle('ForegroundTheme') Captioncolor(22:45:61) Placeholdercolor(22:45:61) Helpercolor(22:45:61) Prompticoncolor(22:45:61) Iconopacity(80) Iconthemedrawstyle('ForegroundLightPrimary') Height(80)
+    Define_Com Class(#xPassword.EditField) Name(#Edit_RegisterPassword) Caption('Password') Displayposition(3) Left(0) Parent(#PanelRegister) Passwordchar('*') Tabposition(3) Top(160) Width(1166) Prompticon('fa-eye') Themedrawstyle('ForegroundTheme') Captioncolor(22:45:61) Placeholdercolor(22:45:61) Prompticoncolor(22:45:61) Helpercolor(ThemeAccentDark) Prompticonopacity(60) Iconopacity(80) Iconthemedrawstyle('ForegroundLightPrimary') Height(80)
+    Define_Com Class(#xPassword.EditField) Name(#Edit_ConfirmPassword) Caption('Confirm Password') Displayposition(4) Left(0) Parent(#PanelRegister) Passwordchar('*') Tabposition(4) Top(240) Width(1166) Prompticon('fa-eye') Captiontype(Caption) Themedrawstyle('ForegroundTheme') Captioncolor(22:45:61) Placeholdercolor(22:45:61) Prompticoncolor(22:45:61) Helpercolor(22:45:61) Prompticonopacity(60) Iconheight(0) Iconopacity(80) Iconthemedrawstyle('ForegroundLightPrimary') Height(80)
+    Define_Com Class(#PRIM_MD.RaisedButton) Name(#ButtonRegister) Caption('Register') Displayposition(5) Parent(#PanelRegister) Tabposition(5) Top(328) Left(0) Style(#StyleButton) Mouseoverstyle(#StyleButtonMouseOver) Height(42) Width(140)
+    
+    Define_Com Class(#PRIM_PPNL) Name(#Confirm) Height(105) Width(304) Themedrawstyle('Card+Shadow2') Layoutmanager(#LayoutConfirmationPopUp) Left(842) Top(338) Closeonclick(True)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text1) Caption('Do you want to reset your Password?') Left(18) Parent(#Confirm) Themedrawstyle('Heading3') Top(16) Width(267) Height(40) Paddingbottom(16) Displayposition(7) Tabposition(1)
+    Define_Com Class(#PRIM_MD.RaisedButton) Name(#ButtonCancel) Caption('Cancel') Left(194) Parent(#Confirm) Top(59) Displayposition(6) Tabposition(2)
+    Define_Com Class(#PRIM_MD.RaisedButton) Name(#ButtonOK) Caption('OK') Left(86) Parent(#Confirm) Themedrawstyle('MediumTitle') Top(59) Displayposition(5) Tabposition(3)
+    Define_Com Class(#PRIM_PANL) Name(#PanelHeading) Displayposition(7) Height(151) Left(16) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(85) Width(1191) Layoutmanager(#LayoutHeading)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text2) Caption('Sign In') Displayposition(1) Height(103) Left(0) Parent(#PanelHeading) Tabposition(1) Themedrawstyle('Heading1') Top(0) Width(1191) Captionalignment(Center) Paddingbottom(8) Paddingleft(8) Paddingtop(8) Paddingright(8) Style(#StyleHeading) Captionmarginbottom(0) Captionmarginright(0) Captionmarginleft(0) Captionmargintop(0)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextSignUp1) Caption('New to Contacts?') Displayposition(2) Left(293) Parent(#PanelHeading) Tabposition(3) Top(103) Width(187) Height(48) Paddingright(2) Paddingtop(8) Paddingbottom(8) Style(#StyleLoginOptions)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextSignUp2) Caption('Sign Up') Displayposition(3) Left(480) Parent(#PanelHeading) Tabposition(5) Themedrawstyle('ForegroundDarkPrimary') Top(103) Width(83) Height(48) Paddingtop(8) Paddingbottom(8) Style(#StyleLoginOptionsLinked)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextLogin2) Caption('Log In') Displayposition(5) Left(830) Parent(#PanelHeading) Tabposition(4) Themedrawstyle('ForegroundDarkPrimary') Top(103) Width(68) Height(48) Paddingtop(8) Paddingbottom(8) Style(#StyleLoginOptionsLinked)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextLogin1) Caption('Already have an account?') Displayposition(4) Left(563) Parent(#PanelHeading) Tabposition(2) Top(103) Width(267) Height(48) Paddingright(2) Paddingtop(8) Paddingbottom(8) Style(#StyleLoginOptions)
+    
+    Define_Com Class(#PRIM_PANL) Name(#AlternateLoginsDesktop) Parent(#COM_OWNER) Displayposition(9) Tabposition(5) Left(612) Top(359) Width(400) Layoutmanager(#LayoutAlternateLogins) Height(132)
+    Define_Com Class(#PRIM_MD.FlatButton) Name(#GoogleButton) Caption('Login with Google') Displayposition(1) Left(40) Parent(#AlternateLoginsDesktop) Tabposition(2) Themedrawstyle('Borders1+Back(66,133,244,1)') Width(320) Paddingbottom(8) Paddingleft(10) Paddingright(10) Paddingtop(8) Height(50) Componenttag('google') Iconimage(#xImageGoogle) Captionmarginleft(4) Iconheight(46) Iconalignment(CenterLeft) Iconmarginleft(-9) Top(8)
+    Define_Com Class(#PRIM_MD.FlatButton) Name(#FacebookButton) Caption('Login with Facebook') Displayposition(2) Left(40) Parent(#AlternateLoginsDesktop) Tabposition(1) Top(74) Themedrawstyle('Borders1+Back(59,89,152,1)') Width(320) Paddingbottom(8) Paddingleft(10) Paddingright(10) Paddingtop(8) Height(50) Componenttag('facebook') Iconimage(#xImageFacebook) Captionmarginleft(4) Iconheight(46) Iconalignment(CenterLeft) Iconmarginleft(-9)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextAppName) Caption('Contacts') Displayposition(10) Left(16) Parent(#COM_OWNER) Tabposition(6) Themedrawstyle('Title') Top(19) Width(137) Icon('people') Iconthemedrawstyle('ForegroundMediumPrimary') Iconalignment(AfterCaption) Iconheight(40) Height(47) Style(#StyleLoginOptionsLinked)
+    
+    Define_Com Class(#PRIM_PANL) Name(#AlternateLoginsMobile) Parent(#COM_OWNER) Displayposition(8) Tabposition(4) Left(16) Top(615) Width(1191) Layoutmanager(#LayoutAlternateLoginMobile)
+    Define_Com Class(#PRIM_MD.FlatButton) Name(#GoogleButtonMobile) Displayposition(2) Left(1063) Parent(#AlternateLoginsMobile) Tabposition(2) Themedrawstyle('Borders1+Back(66,133,244,1)+Rounded') Width(42) Paddingbottom(8) Paddingleft(10) Paddingright(10) Paddingtop(8) Height(42) Componenttag('google') Iconimage(#xImageGoogleLogo) Captionmarginleft(4) Iconheight(38) Iconalignment(Center) Top(4)
+    Define_Com Class(#PRIM_MD.FlatButton) Name(#FacebookButtonMobile) Displayposition(1) Left(1109) Parent(#AlternateLoginsMobile) Tabposition(1) Top(4) Themedrawstyle('Borders1+Back(59,89,152,1)+Rounded') Width(42) Paddingbottom(8) Paddingleft(10) Paddingright(10) Paddingtop(8) Height(42) Componenttag('facebook') Iconimage(#xImageFacebookLogo) Captionmarginleft(4) Iconheight(38) Iconalignment(Center)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text3) Caption('Or Log in using') Displayposition(3) Left(4) Parent(#AlternateLoginsMobile) Tabposition(3) Themedrawstyle('ForegroundSecondary') Top(9) Style(#StyleLoginOptionsLinked) Height(32) Width(158)
+    Define_Com Class(#PRIM_MD.Label) Name(#Text4) Caption('Powered By LANSA') Displayposition(11) Left(559) Parent(#COM_OWNER) Tabposition(7) Themedrawstyle('Subheading+ForegroundSecondary') Top(736) Height(23) Width(104) Paddingbottom(2) Captionmarginbottom(0) Captionmarginleft(0) Captionmarginright(0) Captionmargintop(0)
+    Define_Com Class(#PRIM_MD.Label) Name(#TextStatus) Displayposition(12) Left(211) Parent(#COM_OWNER) Tabposition(8) Themedrawstyle('Heading2') Top(694) Width(800) Paddingbottom(4) Paddingleft(4) Paddingright(4) Paddingtop(4) Height(10) Wordwrap(True) Captionalignment(Center)
+    Define_Com Class(#CT2Tag) Name(#TagSignInPassword) Parent(#COM_OWNER) Tabposition(14) Tabstop(False) Top(379) Displayposition(6)
+    Define_Com Class(#CT2Tag) Name(#TagSignInUser) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(300) Displayposition(5)
+    Define_Com Class(#CT2Tag) Name(#TagRegisterUser) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(251) Displayposition(4)
+    Define_Com Class(#CT2Tag) Name(#TagRegisterEmail) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(329) Displayposition(3)
+    Define_Com Class(#CT2Tag) Name(#TagRegisterPassword) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(411) Displayposition(2)
+    Define_Com Class(#CT2Tag) Name(#TagRegisterPasswordConfirm) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(488)
+    
+    Define Field(#CT2ReturnCode) Type(*STRING) Length(2)
+    
+    * Events
+    Define_Evt Name(SignInCompleted)
+    Define_Evt Name(LogoutCompleted)
+    
+    * ************** *
+    * Event Routines *
+    * ************** *
+    
+    Evtroutine Handling(#COM_OWNER.Prepare)
+    
+    #COM_OWNER.GetUserName
+    #TextSignUp1.Visible #TextSignUp2.Visible := True
+    #TextLogin1.Visible #TextLogin2.Visible := False
+    #PanelRegister.FadeOut Duration(500) Visible(False)
+    #PanelSignIn.FadeIn Duration(500)
+    
+    Endroutine
+    
+    Evtroutine Handling(#sys_web.DeviceChanged)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #AlternateLoginsDesktop.Visible := False
+    #AlternateLoginsMobile.Visible := True
+    #StyleHeading.FontSize := 32
+    #StyleLoginOptions.FontSize #StyleLoginOptionsLinked.FontSize := 16
+    #COM_OWNER.LayoutManager <= #LayoutMainMobile
+    #PanelRegister.Style #PanelSignIn.Style <= *NULL
+    #Edit_ConfirmPassword.HelperPosition #Edit_RegisterEmail.HelperPosition #Edit_RegisterPassword.HelperPosition #Edit_RegisterUser.HelperPosition #Edit_SignInPassword.HelperPosition #Edit_SignInUserName.HelperPosition := Bottom
+    
+    Else
+    
+    #AlternateLoginsDesktop.Visible := True
+    #AlternateLoginsMobile.Visible := False
+    #COM_OWNER.LayoutManager <= #LayoutMainDesktop
+    #StyleHeading.FontSize := 72
+    #StyleLoginOptions.FontSize #StyleLoginOptionsLinked.FontSize := 23
+    #PanelRegister.Style #PanelSignIn.Style <= #StylePanels
+    #Edit_ConfirmPassword.HelperPosition #Edit_RegisterEmail.HelperPosition #Edit_RegisterPassword.HelperPosition #Edit_RegisterUser.HelperPosition #Edit_SignInPassword.HelperPosition #Edit_SignInUserName.HelperPosition := None
+    
+    Endif
+    Endroutine
+    
+    
+    Evtroutine Handling(#TextLogin2.Click)
+    
+    #TagRegisterEmail.HideMessage #TagRegisterPassword.HideMessage #TagRegisterPasswordConfirm.HideMessage #TagRegisterUser.HideMessage
+    #COM_OWNER.ClearErrors
+    #TextLogin1.FadeOut( 300 0 False )
+    #TextLogin2.FadeOut( 300 0 False )
+    #TextSignUp1.FadeIN( 300 300 )
+    #TextSignUp2.FadeIN( 300 300 )
+    #PanelRegister.FadeOut( 300 0 False )
+    #PanelSignIn.FadeIn( 300 300 )
+    
+    Endroutine
+    
+    
+    Evtroutine Handling(#TextSignUp2.Click)
+    
+    #TagSignInPassword.HideMessage #TagSignInUser.HideMessage
+    #COM_OWNER.ClearErrors
+    #TextSignUp1.FadeOut( 300 0 False )
+    #TextSignUp2.FadeOut( 300 0 False )
+    #TextLogin1.FadeIn( 300 300 )
+    #TextLogin2.FadeIN( 300 300 )
+    #PanelSignIn.FadeOut( 300 0 False )
+    #PanelRegister.FadeIn( 300 300 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#TextGuest.Click)
+    
+    #COM_OWNER.SignInAsGuest
+    
+    Endroutine
+    
+    
+    Evtroutine Handling(#Text.Click)
+    
+    * This will use SendGrid to send an email to reset password
+    * To get a SendGrid API Key register at https://sendgrid.com/
+    * Use Package manager to apply the API key to your applications
+    
+    #Edit_SignInUserName.Validate Operation(Insert) Table(#XUserAccount)
+    
+    If (*Not #Edit_SignInUserName.HasError)
+    
+    #Confirm.ShowPopup Placement(Center) Transition(SlideInTop)
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonSignIn.Click)
+    
+    #COM_OWNER.SignIn
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonRegister.Click)
+    
+    #COM_OWNER.RegisterUser
+    
+    Endroutine
+    
+    Evtroutine Handling(#COM_OWNER.LogoutCompleted)
+    
+    #COM_OWNER.Image <= *NULL
+    
+    #COM_OWNER.EnableInputs( True )
+    
+    
+    If ((#SYS_WEB.Device = Mobile) *And (*Not #PanelSignIn.Visible))
+    
+    #PanelRegister.FadeOut Duration(500) Visible(False)
+    #PanelSignIn.FadeIn Duration(500)
+    
+    Endif
+    
+    
+    Endroutine
+    
+    Evtroutine Handling(#Edit_SignInPassword.Prompting #Edit_RegisterPassword.Prompting #Edit_ConfirmPassword.Prompting) Com_Sender(#Sender) Handled(#Handled)
+    
+    #Handled := True
+    
+    If (#Sender.PasswordChar = '*')
+    
+    #Sender.PasswordChar := *null
+    #Sender.PromptIcon := 'fa-eye-slash'
+    
+    Else
+    
+    #Sender.PasswordChar := '*'
+    #Sender.PromptIcon := 'fa-eye'
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonOK.Click)
+    
+    #COM_OWNER.ResetPassword
+    
+    Endroutine
+    
+    Evtroutine Handling(#TagRegisterUser.Click #TagSignInUser.Click #TagRegisterEmail.Click #TagRegisterPassword.Click #TagSignInPassword.Click #TagRegisterPasswordConfirm.Click) Com_Sender(#Sender)
+    
+    
+    #Sender.HideMessage( 800 500 )
+    
+    Endroutine
+    Evtroutine Handling(#Edit_SignInUserName.GotFocus)
+    
+    #TagSignInUser.HideMessage( 800 500 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Edit_SignInPassword.GotFocus)
+    
+    #TagSignInPassword.HideMessage( 800 500 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Edit_ConfirmPassword.GotFocus)
+    
+    #TagRegisterPasswordConfirm.HideMessage( 800 500 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Edit_RegisterPassword.GotFocus)
+    
+    #TagRegisterPassword.HideMessage( 800 500 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Edit_RegisterPassword.Changed)
+    
+    #COM_OWNER.PasswordStrength
+    
+    Endroutine
+    
+    Evtroutine Handling(#Edit_RegisterEmail.GotFocus)
+    
+    #TagRegisterEmail.HideMessage( 800 500 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Edit_RegisterUser.GotFocus)
+    
+    #TagRegisterUser.HideMessage( 800 500 )
+    
+    Endroutine
+    
+    * *************** *
+    * Method Routines *
+    * *************** *
+    
+    Mthroutine Name(SignIn)
+    Define_Com Class(#CT2DataServer.SignIn) Name(#SignIn)
+    
+    Define_Com Class(#xPassword) Name(#Password)
+    
+    If (#COM_OWNER.ValidateSignIn)
+    
+    #Password := #Edit_SignInPassword.Value.Encrypt( #Edit_SignInPassword )
+    #COM_OWNER.EnableInputs( False )
+    #COM_OWNER.SaveUserName
+    #TextStatus.Caption := "Signing in..."
+    #COM_OWNER.Image <= #SYS_WEB.LoadingImage
+    #SignIn.ExecuteAsync Password(#Password) User(#Edit_SignInUserName) Result(#CT2ReturnCode)
+    
+    Endif
+    
+    Evtroutine Handling(#SignIn.Completed)
+    
+    #COM_OWNER.EnableInputs( True )
+    #COM_OWNER.Image <= *NULL
+    
+    Case (#CT2ReturnCode)
+    When (= OK)
+    
+    #Edit_SignInPassword.ClearError
+    #Edit_SignInUserName.ClearError
+    #TagSignInPassword.HideMessage
+    #TagSignInUser.HideMessage
+    
+    Signal Event(SignInCompleted)
+    #COM_OWNER.Close
+    
+    When (= ER)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_SignInPassword.ShowError( 'Wrong user name/password' )
+    #Edit_SignInUserName.ShowError( 'Wrong user name/password' )
+    
+    Else
+    
+    #Edit_SignInPassword.ShowError
+    #Edit_SignInUserName.ShowError
+    #TagSignInPassword.ShowMessage( 'Wrong user name/password' )
+    #TagSignInUser.ShowMessage( 'Wrong user name/password' )
+    
+    Endif
+    
+    When (= RU)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_SignInPassword.ShowError( 'Password Reset Pending. Check Emails.' )
+    #Edit_SignInUserName.ShowError( 'Password Reset Pending. Check Emails.' )
+    
+    Else
+    
+    #Edit_SignInPassword.ShowError
+    #Edit_SignInUserName.ShowError
+    #TagSignInPassword.ShowMessage( 'Password Reset Pending. Check Emails.' )
+    #TagSignInUser.ShowMessage( 'Password Reset Pending. Check Emails.' )
+    
+    Endif
+    
+    Endcase
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(SignInAsGuest)
+    Define_Com Class(#CT2DataServer.SignInAsGuest) Name(#SignInAsGuest)
+    
+    #COM_OWNER.EnableInputs( False )
+    
+    #COM_OWNER.Image <= #SYS_WEB.LoadingImage
+    #SignInAsGuest.ExecuteAsync
+    #TextStatus.Caption := "Signing in..."
+    
+    Evtroutine Handling(#SignInAsGuest.Completed)
+    
+    #COM_OWNER.EnableInputs( True )
+    #COM_OWNER.Image <= *NULL
+    Signal Event(SignInCompleted)
+    #TextStatus := ''
+    #COM_OWNER.Close
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(RegisterUser)
+    Define_Com Class(#CT2DataServer.RegisterUser) Name(#Register)
+    
+    Define_Com Class(#xPassword) Name(#Password)
+    Define_Com Class(#xEMail) Name(#EmailAddress)
+    
+    If ((#COM_OWNER.ValidateEmail) *And (#COM_OWNER.ValidatePasswords) *And (#COM_OWNER.ValidateUserName) *And (#COM_OWNER.ValidatePasswords))
+    
+    #EmailAddress := #Edit_RegisterEmail
+    #TextStatus.Caption := "Registering user..."
+    #COM_OWNER.Image <= #SYS_WEB.LoadingImage
+    #Password := #Edit_RegisterPassword.Value.Encrypt( #Edit_RegisterPassword )
+    #COM_OWNER.EnableChildren := False
+    
+    #TagRegisterPassword.HideMessage Fadeout(500)
+    #Register.ExecuteAsync Email(#EmailAddress) Password(#Password) User(#Edit_RegisterUser) Result(#CT2ReturnCode)
+    
+    Endif
+    
+    Evtroutine Handling(#Register.Completed)
+    
+    #COM_OWNER.Image <= *NULL
+    
+    If (#CT2ReturnCode = OK)
+    
+    #TextLogin1.FadeOut( 300 0 False )
+    #TextLogin2.FadeOut( 300 0 False )
+    #TextSignUp1.FadeIN( 300 300 )
+    #TextSignUp2.FadeIN( 300 300 )
+    #PanelRegister.FadeOut Duration(300) Visible(False)
+    #PanelSignIn.FadeIn Duration(300) Delay(300)
+    
+    #Edit_SignInUserName := #Edit_RegisterUser
+    #Edit_RegisterUser := *NULL
+    
+    #COM_OWNER.EnableInputs( True )
+    #TextStatus := ('User registration successful you can now log in as &1').Substitute( #Edit_SignInUserName )
+    
+    
+    Else
+    
+    #COM_OWNER.EnableChildren := True
+    #TextStatus := 'User registration failed check details are correct and have not been entered previously.'
+    
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    
+    Mthroutine Name(LogOut)
+    Define_Com Class(#CT2DataServer.SignOut) Name(#Logout)
+    
+    #COM_OWNER.Image <= #SYS_WEB.LoadingImage
+    
+    #COM_OWNER.Show
+    
+    #Logout.ExecuteAsync
+    
+    Evtroutine Handling(#Logout.Completed)
+    
+    #TextStatus.Caption := "Signed out of Contacts"
+    Signal Event(LogoutCompleted)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Logout.Failed) Reason(#Reason) Handled(#Handled)
+    
+    #COM_OWNER.Image <= *NULL
+    
+    If (#Reason = SessionInvalid)
+    
+    #Handled := True
+    
+    Signal Event(LogoutCompleted)
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(HandleInvalidSession)
+    
+    #TextStatus.Caption := "Session Expired"
+    
+    #COM_OWNER.Image <= *NULL
+    
+    #COM_OWNER.EnableInputs( True )
+    
+    #Edit_SignInUserName.SetFocus
+    
+    #COM_OWNER.Show
+    
+    Endroutine
+    
+    
+    Mthroutine Name(ValidateEmail)
+    Define_Map For(*RESULT) Class(#prim_boln) Name(#Continue)
+    
+    #Edit_RegisterEmail.ClearError
+    
+    #Continue := True
+    
+    If (#Edit_RegisterEmail <> *BLANKS)
+    
+    If (*Not #Edit_RegisterEmail.Value.IsValidEmail)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterEmail.ShowError( 'Email specified is not valid.' )
+    
+    Else
+    
+    #Edit_RegisterEmail.ShowError
+    #TagRegisterEmail.ShowMessage( 'Email specified is not valid.' )
+    
+    Endif
+    
+    #Continue := False
+    
+    Endif
+    
+    Else
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterEmail.ShowError( 'Email specified is not valid.' )
+    
+    Else
+    
+    #Edit_RegisterEmail.ShowError
+    #TagRegisterEmail.ShowMessage( 'Email specified is not valid.' )
+    
+    Endif
+    
+    #Continue := False
+    
+    Endif
+    
+    Endroutine
+    
+    
+    Mthroutine Name(ValidatePasswords)
+    Define_Map For(*RESULT) Class(#prim_boln) Name(#Continue)
+    
+    #Edit_RegisterPassword.ClearError
+    #Edit_ConfirmPassword.ClearError
+    
+    #Continue := True
+    
+    If (#Edit_RegisterPassword = *BLANKS)
+    
+    #Continue := False
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterPassword.ShowError( 'Password must be specified' )
+    
+    Else
+    
+    #Edit_RegisterPassword.ShowError
+    #TagRegisterPassword.ShowMessage( 'Password must be specified' )
+    
+    Endif
+    
+    Else
+    
+    If ((*Not #Edit_RegisterPassword.Value.IsValidPassword( Medium )) *And (*Not #Edit_RegisterPassword.Value.IsValidPassword( Strong )))
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterPassword.ShowError( 'Password must be min at least 6 with one upper, one lower and one numeric' )
+    
+    Else
+    
+    #Edit_RegisterPassword.ShowError
+    #TagRegisterPassword.ShowMessage( 'Password must be min at least 6 with one upper, one lower and one numeric' )
+    
+    Endif
+    
+    #Continue := False
+    
+    Endif
+    
+    Endif
+    
+    If (#Edit_ConfirmPassword <> #Edit_RegisterPassword)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_ConfirmPassword.ShowError( 'Passwords do not match' )
+    
+    Else
+    
+    #Edit_ConfirmPassword.ShowError
+    #TagRegisterPasswordConfirm.ShowMessage( 'Passwords do not match' )
+    
+    Endif
+    
+    #Continue := False
+    
+    Endif
+    
+    If (#Edit_ConfirmPassword = *BLANKS)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_ConfirmPassword.ShowError( 'Password must be specified' )
+    
+    Else
+    
+    
+    #Edit_ConfirmPassword.ShowError
+    #TagRegisterPasswordConfirm.ShowMessage( 'Password must be specified' )
+    
+    Endif
+    
+    #Continue := False
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(PasswordStrength)
+    
+    #Edit_RegisterPassword.HelperText := ''
+    
+    If ((*Not #Edit_RegisterPassword.Value.IsValidPassword( Medium )) *And (*Not #Edit_RegisterPassword.Value.IsValidPassword( Strong )))
+    
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterPassword.ShowError( 'Password is weak' )
+    
+    Else
+    
+    #TagRegisterPassword.ShowMessage( 'Password is weak' ERROR )
+    
+    Endif
+    
+    Endif
+    
+    If (#Edit_RegisterPassword.Value.IsValidPassword( Medium ))
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterPassword.HelperText := 'Password strength is medium'
+    #Edit_RegisterPassword.HelperColor := 'ThemeAccentDark'
+    
+    Else
+    
+    #TagRegisterPassword.ShowMessage( 'Password strength is medium' WARNING )
+    
+    Endif
+    
+    Endif
+    
+    If (#Edit_RegisterPassword.Value.IsValidPassword( Strong ))
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterPassword.HelperText := 'Password is strong'
+    #Edit_RegisterPassword.HelperColor := 'ThemeSuccessDark'
+    
+    Else
+    
+    #TagRegisterPassword.ShowMessage( 'Password is strong' OK )
+    
+    Endif
+    Endif
+    
+    Endroutine
+    
+    
+    Mthroutine Name(ValidateUserName)
+    Define_Map For(*RESULT) Class(#PRIM_BOLN) Name(#UserIsValid)
+    Define_Com Class(#CT2DataServer.ValidateUserName) Name(#ValidateUseName)
+    
+    #Edit_RegisterUser.ClearError
+    
+    #UserIsValid := True
+    
+    If (#Edit_RegisterUser <> *BLANKS)
+    If (#Edit_RegisterUser.Value.IsValidEmail)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterUser.ShowError( 'Email address cannot be used' )
+    
+    Else
+    
+    #Edit_RegisterUser.ShowError
+    #TagRegisterUser.ShowMessage( 'Email address cannot be used' )
+    
+    Endif
+    
+    #UserIsValid := False
+    
+    Else
+    
+    #ValidateUseName.Execute( #Edit_RegisterUser #CT2ReturnCode )
+    
+    Endif
+    Else
+    
+    #UserIsValid := False
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterUser.ShowError( 'User  must be specified' )
+    
+    Else
+    
+    #Edit_RegisterUser.ShowError
+    #TagRegisterUser.ShowMessage( 'User  must be specified' )
+    
+    
+    Endif
+    
+    Endif
+    
+    Evtroutine Handling(#ValidateUseName.Completed)
+    
+    If (#CT2ReturnCode <> OK)
+    
+    #UserIsValid := False
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_RegisterUser.ShowError( 'Error with user name' )
+    
+    Else
+    
+    #Edit_RegisterUser.ShowError
+    #TagRegisterUser.ShowMessage( 'Error with user name' )
+    
+    Endif
+    
+    Else
+    
+    #UserIsValid := True
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(ValidateSignIn)
+    Define_Map For(*RESULT) Class(#PRIM_BOLN) Name(#Continue)
+    
+    #Continue := True
+    
+    If (#Edit_SignInPassword = *BLANKS)
+    
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_SignInPassword.ShowError( 'Password must be specified.' )
+    
+    Else
+    
+    #Edit_SignInPassword.ShowError
+    #TagSignInPassword.ShowMessage( 'Password must be specified.' )
+    
+    Endif
+    
+    #Continue := False
+    
+    Endif
+    
+    If (#Edit_SignInUserName = *BLANKS)
+    If (#SYS_WEB.Device = Mobile)
+    
+    #Edit_SignInUserName.ShowError( 'User name or Email must be specified.' )
+    
+    Else
+    
+    #Edit_SignInUserName.ShowError
+    #TagSignInUser.ShowMessage( 'User name or Email must be specified.' )
+    
+    Endif
+    
+    #Continue := False
+    
+    Endif
+    
+    Endroutine
+    
+    
+    Mthroutine Name(EnableInputs)
+    Define_Map For(*INPUT) Class(#PRIM_BOLN) Name(#Enable)
+    
+    #COM_OWNER.EnableChildren := #Enable
+    
+    #Edit_SignInPassword #Edit_ConfirmPassword #Edit_RegisterEmail #Edit_RegisterPassword := *null
+    
+    #COM_OWNER.ClearErrors
+    
+    Endroutine
+    
+    
+    Mthroutine Name(GetUserName)
+    
+    #CheckBox_RememberMe.CheckState := Unchecked
+    
+    For Each(#Item) In(#SYS_WEB.LocalStorage)
+    
+    Continue If(#Item.Name <> USERNAME)
+    
+    If (#Item.Value <> *BLANK)
+    
+    #Edit_SignInUserName := #Item.Value
+    
+    #CheckBox_RememberMe.CheckState := Checked
+    
+    Endif
+    
+    Endfor
+    
+    Endroutine
+    
+    
+    Mthroutine Name(SaveUserName)
+    
+    If (#CheckBox_RememberMe.CheckState = Checked)
+    
+    #sys_web.LocalStorage.Add( USERNAME #Edit_SignInUserName )
+    
+    Else
+    
+    #SYS_WEB.LocalStorage.Remove( USERNAME )
+    
+    Endif
+    
+    Endroutine
+    
+    
+    Mthroutine Name(ResetPassword)
+    
+    Define_Com Class(#CT2DataServer.RequestPasswordReset) Name(#PasswordReset)
+    Define_Com Class(#PRIM_ALPH) Name(#Result)
+    
+    If (#Edit_SignInUserName <> *blanks)
+    
+    #PasswordReset.Execute Url(#SYS_web.URL) Userameoremail(#Edit_SignInUserName) Result(#Result)
+    
+    Endif
+    
+    Evtroutine Handling(#PasswordReset.Completed)
+    
+    If (#Result = OK)
+    
+    #SYS_WEB.Alert( 'Email to reset password has been sent' )
+    
+    Else
+    
+    #SYS_WEB.Alert( 'Email to reset password failed.' )
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    
+    End_Com

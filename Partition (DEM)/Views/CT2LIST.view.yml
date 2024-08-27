@@ -1,0 +1,589 @@
+﻿Web View:
+  Name:               CT2Contacts
+  Enabled For RDMLX:  Yes
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Contacts List"
+
+  - FRA:
+      Description:        "Contacts List"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_VIEW) Displayposition(1) Height(513) Width(633) Layoutmanager(#LayoutMain) Caption('Contacts') Tabposition(1) Style(#StyleNoBorderNoCorner) Visible(False)
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleHand) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleGray) Backgroundbrush(#BrushGray) Textcolor(White)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushGray) Color(196:196:196)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleNoBorder) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleNoBorderNoCorner) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0) Cornerbottomleft(0) Cornerbottomright(0) Cornertopleft(0) Cornertopright(0)
+    
+    * Layout - Main
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutMainColumn1) Displayposition(1) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainRow1) Displayposition(1) Parent(#LayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainRow2) Displayposition(2) Parent(#LayoutMain) Height(80) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutMainRow3) Displayposition(3) Parent(#LayoutMain) Height(56) Units(Content)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem1) Column(#LayoutMainColumn1) Manage(#List) Parent(#LayoutMain) Row(#LayoutMainRow1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem2) Alignment(BottomRight) Column(#LayoutMainColumn1) Manage(#ButtonCreate) Parent(#LayoutMain) Row(#LayoutMainRow1) Sizing(None) Marginbottom(16) Marginright(16)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem3) Column(#LayoutMainColumn1) Manage(#PanelToolbar) Parent(#LayoutMain) Row(#LayoutMainRow3) Sizing(FitToWidth) Alignment(BottomCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem4) Alignment(BottomCenter) Column(#LayoutMainColumn1) Manage(#Alert) Parent(#LayoutMain) Row(#LayoutMainRow2) Sizing(FitToWidth)
+    
+    * Layout - List
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutMainItem5) Alignment(BottomCenter) Column(#LayoutMainColumn1) Manage(#ButtonLoadMore) Parent(#LayoutMain) Row(#LayoutMainRow1) Sizing(None) Marginbottom(8)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutList)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutListRow1) Displayposition(1) Parent(#LayoutList)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutListColumn1) Displayposition(1) Parent(#LayoutList)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem1) Alignment(CenterLeft) Column(#LayoutListRow1) Manage(#ListIcon) Marginleft(20) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem2) Alignment(CenterLeft) Column(#LayoutListRow1) Manage(#ListImage) Marginleft(20) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem3) Alignment(CenterLeft) Column(#LayoutListRow1) Flow(CenterVertical) Manage(#ListName) Marginleft(100) Marginright(16) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem4) Alignment(CenterLeft) Column(#LayoutListRow1) Flow(CenterVertical) Manage(#ListAddress) Marginleft(100) Marginright(16) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem5) Alignment(CenterLeft) Column(#LayoutListRow1) Flow(CenterVertical) Manage(#ListEmail) Marginleft(100) Marginright(16) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem6) Alignment(BottomLeft) Column(#LayoutListRow1) Flow(CenterVertical) Manage(#ListSeparator) Marginleft(100) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem7) Alignment(CenterRight) Column(#LayoutListRow1) Manage(#ListDelete) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(None) Marginright(16)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem8) Alignment(CenterRight) Column(#LayoutListRow1) Manage(#ListMakeCall) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(None) Flow(Left)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem9) Alignment(CenterRight) Column(#LayoutListRow1) Manage(#ListSendEmail) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(None) Flow(Left)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem10) Alignment(CenterRight) Column(#LayoutListRow1) Manage(#ListSendMessage) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(None) Flow(Left) Marginright(24)
+    
+    * Layout - Actions
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutActions)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutActionsRow1) Displayposition(1) Parent(#LayoutActions)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutActionsColumn1) Displayposition(1) Parent(#LayoutActions)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutActionsItem1) Alignment(TopCenter) Column(#LayoutActionsColumn1) Parent(#LayoutActions) Row(#LayoutActionsRow1) Sizing(FitToWidth) Flow(Down) Manage(#ButtonSortName)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutActionsItem2) Alignment(TopCenter) Column(#LayoutActionsColumn1) Parent(#LayoutActions) Row(#LayoutActionsRow1) Sizing(FitToWidth) Flow(Down) Manage(#ButtonSortAddress)
+    
+    * Layout - Toolbar
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutToolbar)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutToolbarColumn1) Displayposition(1) Parent(#LayoutToolbar)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutToolbarColumn2) Displayposition(2) Parent(#LayoutToolbar) Maxwidth(100) Width(100)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutToolbarColumn3) Displayposition(3) Parent(#LayoutToolbar) Maxwidth(100) Width(100)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutToolbarColumn4) Displayposition(4) Parent(#LayoutToolbar) Maxwidth(100) Width(100)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#LayoutToolbarColumn5) Displayposition(5) Parent(#LayoutToolbar) Maxwidth(100) Width(100)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#LayoutToolbarRow1) Displayposition(1) Parent(#LayoutToolbar)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutToolbarItem1) Manage(#LabelMarkAll) Parent(#LayoutToolbar) Row(#LayoutToolbarRow1) Column(#LayoutToolbarColumn2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutToolbarItem2) Manage(#LabelUnMarkAll) Parent(#LayoutToolbar) Row(#LayoutToolbarRow1) Column(#LayoutToolbarColumn3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutToolbarItem3) Manage(#LabelBinSelected) Parent(#LayoutToolbar) Row(#LayoutToolbarRow1) Column(#LayoutToolbarColumn4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutToolbarItem4) Manage(#LabelCancel) Parent(#LayoutToolbar) Row(#LayoutToolbarRow1) Column(#LayoutToolbarColumn5)
+    
+    * Controls
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem11) Alignment(CenterRight) Column(#LayoutListRow1) Manage(#ListAttachment) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(None) Flow(Left) Marginright(16)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutListItem12) Alignment(CenterRight) Column(#LayoutListRow1) Manage(#ListNotes) Parent(#LayoutList) Row(#LayoutListColumn1) Sizing(None) Flow(Left)
+    Define_Com Class(#PRIM_PPNL) Name(#PopupActions) Left(333) Top(279) Layoutmanager(#LayoutActions) Height(100) Closeonclick(True)
+    Define_Com Class(#PRIM_MD.FlatButton) Name(#ButtonSortName) Left(0) Parent(#PopupActions) Top(0) Displayposition(1) Tabposition(1) Width(278) Caption('Sort by name') Captionalignment(CenterLeft) Captionmarginleft(16) Height(50) Iconalignment(CenterRight) Iconmarginright(16)
+    Define_Com Class(#PRIM_MD.FlatButton) Name(#ButtonSortAddress) Left(0) Parent(#PopupActions) Top(50) Displayposition(2) Tabposition(2) Width(278) Caption('Sort by address') Captionalignment(CenterLeft) Captionmarginleft(16) Height(50) Iconalignment(CenterRight) Iconmarginright(16)
+    Define_Com Class(#PRIM_MD.List) Name(#List) Displayposition(3) Layoutmanager(#LayoutList) Left(0) Parent(#COM_OWNER) Rowheight(88) Tabposition(2) Height(377) Width(633) Top(0) Visible(False)
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListIcon) Displayposition(12) Icon('person') Left(20) Parent(#List) Tabposition(2) Top(14) Iconheight(22) Height(60) Width(60) Themedrawstyle('Rounded') Iconalignment(Center) Style(#StyleGray)
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListImage) Displayposition(6) Left(20) Parent(#List) Tabposition(1) Top(14) Iconheight(60) Height(60) Width(60) Themedrawstyle('Rounded') Iconalignment(Center)
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListName) Caption('Name') Displayposition(13) Height(20) Parent(#List) Tabposition(12) Top(14) Width(517) Left(100)
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListAddress) Caption('Address') Displayposition(14) Height(20) Parent(#List) Tabposition(13) Top(34) Width(517) Themedrawstyle('ForegroundSecondary') Left(100)
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListEmail) Caption('email') Displayposition(15) Height(20) Parent(#List) Tabposition(14) Top(54) Width(517) Themedrawstyle('ForegroundSecondary+Heading3+Subheading') Left(100)
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListIdentification) Displayposition(16) Height(0) Left(0) Parent(#List) Tabposition(15) Top(0) Width(0) Source(#xContactIdentification) Visible(False)
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListSeparator) Displayposition(17) Height(1) Parent(#List) Tabposition(16) Top(87) Width(533) Themedrawstyle('BottomDivider') Left(100)
+    Define_Com Class(#PRIM_MD.ListCheckBox) Name(#ListDelete) Displayposition(5) Dragstyle(None) Height(32) Left(585) Parent(#List) Tabposition(17) Top(28) Width(32) Iconalignment(Center) Visible(False)
+    Define_Com Class(#PRIM_MD.ListIcon) Name(#ListSendMessage) Displayposition(7) Dragstyle(None) Height(28) Left(509) Parent(#List) Tabposition(7) Width(28) Visible(False) Icon('message') Iconkind(Active) Iconopacity(80) Style(#StyleHand) Top(30)
+    Define_Com Class(#PRIM_MD.ListIcon) Name(#ListMakeCall) Displayposition(8) Dragstyle(None) Height(28) Left(481) Parent(#List) Tabposition(8) Width(28) Visible(False) Icon('call') Iconkind(Active) Iconopacity(80) Style(#StyleHand) Top(30)
+    Define_Com Class(#PRIM_MD.ListIcon) Name(#ListSendEmail) Displayposition(9) Dragstyle(None) Height(28) Left(453) Parent(#List) Tabposition(9) Width(28) Visible(False) Icon('email') Iconkind(Active) Iconopacity(80) Style(#StyleHand) Top(30)
+    Define_Com Class(#PRIM_MD.ListIcon) Name(#ListAttachment) Displayposition(1) Dragstyle(None) Height(28) Left(589) Parent(#List) Tabposition(4) Width(28) Visible(False) Icon('attach_file') Iconkind(Active) Iconopacity(80) Style(#StyleHand) Top(30) Themedrawstyle('Text(190,190,190,1)')
+    Define_Com Class(#PRIM_MD.ListIcon) Name(#ListNotes) Displayposition(2) Dragstyle(None) Height(28) Left(561) Parent(#List) Tabposition(5) Width(28) Visible(False) Icon('note') Iconkind(Active) Iconopacity(80) Style(#StyleHand) Top(30) Themedrawstyle('Text(190,190,190,1)')
+    Define_Com Class(#Prim_md.listLabel) Name(#ListHasAttachment) Parent(#List) Displayposition(18) Tabposition(18) Visible(False) Source(#xAttachmentHasAttachments)
+    Define_Com Class(#Prim_md.listLabel) Name(#ListHasNote) Parent(#List) Displayposition(4) Tabposition(6) Visible(False) Source(#xNoteHasNotes)
+    
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListEmailField) Displayposition(10) Height(0) Parent(#List) Tabposition(10) Top(1) Width(1) Left(1) Source(#xContactEmailAddress) Visible(False)
+    Define_Com Class(#PRIM_MD.ListLabel) Name(#ListMobileField) Displayposition(11) Height(0) Parent(#List) Tabposition(11) Top(1) Width(1) Left(1) Source(#xContactMobilePhone) Visible(False)
+    Define_Com Class(#PRIM_MD.ActionButton) Name(#ButtonCreate) Displayposition(1) Icon('add') Left(561) Parent(#COM_OWNER) Tabposition(3) Top(305) Themedrawstyle('DarkAccent') Tabstop(False)
+    Define_Com Class(#PRIM_PANL) Name(#PanelToolbar) Displayposition(5) Height(56) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(457) Width(633) Themedrawstyle('Card+Subheading') Themebackground(Dark) Layoutmanager(#LayoutToolbar) Visible(False) Style(#StyleNoBorder)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelCancel) Caption('CANCEL') Displayposition(1) Left(533) Parent(#PanelToolbar) Tabposition(2) Height(56) Top(0) Captionmarginleft(16) Captionmarginright(18) Captionalignment(Center) Wordwrap(True) Ellipses(False)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelBinSelected) Caption('BIN SELECTED') Displayposition(2) Left(433) Parent(#PanelToolbar) Tabposition(3) Height(56) Top(0) Captionmarginleft(8) Captionalignment(Center) Captionmarginright(8) Wordwrap(True) Ellipses(False)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelUnMarkAll) Caption('UNMARK ALL') Displayposition(3) Left(333) Parent(#PanelToolbar) Tabposition(4) Height(56) Top(0) Captionmarginleft(8) Captionalignment(Center) Captionmarginright(8) Wordwrap(True) Ellipses(False)
+    Define_Com Class(#PRIM_MD.Label) Name(#LabelMarkAll) Caption('MARK ALL') Displayposition(4) Left(233) Parent(#PanelToolbar) Tabposition(1) Height(56) Top(0) Captionmarginleft(12) Captionalignment(Center) Captionmarginright(12) Wordwrap(True) Ellipses(False)
+    Define_Com Class(#PRIM_MD.Alert) Name(#Alert) Caption('Bin is for demonstration purposes only. Contacts are still in the database.') Closeicon(False) Displayposition(4) Duration(6000) Parent(#COM_OWNER) Tabposition(5) Themebackground(Dark) Width(633) Wordwrap(True) Height(80) Captionmarginleft(12) Captionmarginright(12) Ellipses(False) Top(377)
+    Define_Com Class(#PRIM_MD.RaisedButton) Name(#ButtonLoadMore) Caption('Load more') Displayposition(2) Left(237) Parent(#COM_OWNER) Tabposition(1) Themedrawstyle('MediumTitle+Rounded') Width(158) Top(333) Opacity(0)
+    
+    * Components
+    Define_Com Class(#STD_STRNG) Name(#Filter)
+    Define_Com Class(#PRIM_BOLN) Name(#Editing)
+    Define_Com Class(#PRIM_BOLN) Name(#EndofList)
+    * Data definition
+    Def_List Name(#xContactList) Fields(#xContactIdentification #xContactLastName #xContactFirstName #xContactEmailAddress #xContactMobilePhone #xContactPhoto #xContactCity #xContactAddress #xAttachmentHasAttachments #xNoteHasNotes) Type(*WORKING) Entrys(*MAX)
+    Define_Com Class(#PRIM_NMBR) Name(#ItemCount)
+    * Properties
+    Define_Pty Name(Filter) Get(*AUTO #Filter) Set(SetFilter)
+    
+    * ***************** *
+    * Property Routines *
+    * ***************** *
+    
+    Ptyroutine Name(SetFilter)
+    Define_Map For(*INPUT) Class(#STD_STRNG) Name(#Value)
+    
+    #Filter := #Value
+    
+    If (#COM_OWNER.IsActiveView)
+    
+    #COM_OWNER.Refresh
+    
+    Endif
+    
+    Endroutine
+    
+    * *************** *
+    * Method Routines *
+    * *************** *
+    
+    Mthroutine Name(ToggleEdit)
+    
+    If (#Editing)
+    
+    #COM_OWNER.StopEdit
+    
+    Else
+    
+    #COM_OWNER.StartEdit
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ToggleFilter)
+    Define_Map For(*INPUT) Class(#PRIM_CTRL) Name(#Context) Pass(*BY_REFERENCE)
+    
+    #PopupActions.ShowPopup Transition(SlideInTop) Left((#Context.ScreenLeft + #Context.Width) - #PopupActions.Width) Top(#Context.ScreenTop + #Context.Height)
+    
+    Endroutine
+    
+    Mthroutine Name(StopEdit) Access(*PRIVATE)
+    
+    Selectlist Named(#List)
+    
+    #ListDelete.CurrentItem.Visible := False
+    
+    Endselect
+    
+    #PanelToolbar.Visible := False
+    
+    #ButtonCreate.Visible := True
+    #ButtonCreate.DisplayPosition := 1
+    
+    #Editing := False
+    
+    Endroutine
+    
+    Mthroutine Name(StartEdit) Access(*PRIVATE)
+    
+    #Editing := True
+    
+    #PanelToolbar.Visible := True
+    #ButtonCreate.Visible := False
+    
+    Selectlist Named(#List)
+    
+    #ListMakeCall.CurrentItem.Visible := False
+    #ListSendEmail.CurrentItem.Visible := False
+    #ListSendMessage.CurrentItem.Visible := False
+    
+    #ListDelete.CurrentItem.Visible := True
+    #ListDelete.CurrentItem.CheckState := Unchecked
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(Refresh) Access(*PRIVATE)
+    Define_Com Class(#CT2DataServer.Find) Name(#Find)
+    
+    If (#COM_OWNER.Filter.Trim <> "")
+    
+    Clr_List Named(#xContactList)
+    
+    Clr_List Named(#List)
+    
+    #EndofList := False
+    
+    Endif
+    
+    #Find.ExecuteAsync( #Filter #ItemCount #xContactList )
+    
+    #COM_OWNER.Image <= #SYS_WEB.LoadingImage
+    
+    Evtroutine Handling(#Find.Completed)
+    
+    #COM_OWNER.Image <= *NULL
+    
+    Selectlist Named(#xContactList)
+    
+    Add_Entry To_List(#List)
+    
+    #ListName.CurrentItem.Caption := #xContactFirstName + " " + #xContactLastName
+    #ListAddress.CurrentItem.Caption := #xContactAddress + " " + #xContactCity
+    #ListEmail.CurrentItem.Caption := "email " + #xContactEmailAddress
+    
+    #EndofList := #ItemCount = 0
+    
+    If (#xContactPhoto <> "")
+    
+    #ListImage.CurrentItem.IconFileName := ("images\\contacts\\" + #xContactPhoto)
+    
+    Endif
+    
+    Endselect
+    
+    #List.Visible := True
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(Create) Access(*PRIVATE)
+    Define_Com Class(#CT2Details) Name(#Details)
+    
+    #Details.Create
+    
+    Evtroutine Handling(#Details.ItemSaved)
+    
+    #COM_OWNER.Refresh
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(ShowCurrentItem) Access(*PRIVATE)
+    Define_Com Class(#CT2Details) Name(#Details)
+    
+    #Details.ShowItem( #xContactIdentification )
+    
+    Evtroutine Handling(#Details.ItemDeleted #Details.ItemSaved)
+    
+    #COM_OWNER.Refresh
+    
+    Endroutine
+    
+    Endroutine
+    
+    
+    Mthroutine Name(ShowNotes) Access(*PRIVATE)
+    Define_Com Class(#xNotesDialog) Name(#Note)
+    
+    #Note.ShowNotes( xContacts #xContactIdentification.AsString )
+    
+    Evtroutine Handling(#Note.CloseNotes) Inoteschanged(#Changed)
+    
+    If (#Changed)
+    
+    #COM_OWNER.Refresh
+    
+    Endif
+    
+    #Note.Close
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(ShowAttachment) Access(*PRIVATE)
+    Define_Com Class(#xAttachmentDialog) Name(#Attachment)
+    
+    #Attachment.ShowAttachments( xContacts #xContactIdentification.AsString )
+    
+    Evtroutine Handling(#Attachment.CloseAttachments) Iattachmentchanged(#Changed)
+    
+    If (#Changed)
+    
+    #COM_OWNER.Refresh
+    
+    Endif
+    
+    #Attachment.Close
+    
+    Endroutine
+    
+    Endroutine
+    
+    * ************** *
+    * Event Routines *
+    * ************** *
+    
+    Evtroutine Handling(#COM_OWNER.Prepare)
+    
+    #Filter := ""
+    
+    #COM_OWNER.StopEdit
+    #COM_OWNER.Refresh
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemClick)
+    
+    #COM_OWNER.ShowCurrentItem
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemMouseEnter)
+    
+    If ((*Not #Editing) *And (#Sys_Web.Device <> Mobile))
+    
+    #ListMakeCall.CurrentItem.Visible := True
+    #ListSendEmail.CurrentItem.Visible := True
+    #ListSendMessage.CurrentItem.Visible := True
+    #ListAttachment.CurrentItem.Visible := True
+    #ListNotes.CurrentItem.Visible := True
+    
+    If (#xAttachmentHasAttachments)
+    #ListAttachment.CurrentItem.ThemeDrawStyle := 'ForegroundMediumAccent'
+    Endif
+    
+    If (#xNoteHasNotes)
+    #ListNotes.CurrentItem.ThemeDrawStyle := 'ForegroundMediumPrimary'
+    Endif
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemMouseLeave)
+    
+    #ListMakeCall.CurrentItem.Visible := False
+    #ListSendEmail.CurrentItem.Visible := False
+    #ListSendMessage.CurrentItem.Visible := False
+    #ListAttachment.CurrentItem.Visible := False
+    #ListNotes.CurrentItem.Visible := False
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonSortName.Click)
+    
+    If (#ListName.SortPosition <> 1)
+    
+    #ListName.SortPosition := 1
+    #ListName.SortDirection := Ascending
+    #ListAddress.SortPosition := 0
+    #ListEmail.SortPosition := 0
+    
+    Else
+    
+    If (#ListName.SortDirection = Ascending)
+    
+    #ListName.SortDirection := Descending
+    
+    Else
+    
+    #ListName.SortPosition := 0
+    
+    #COM_OWNER.Refresh
+    
+    Endif
+    
+    Endif
+    
+    #PopupActions.ClosePopup
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonSortAddress.Click)
+    
+    If (#ListAddress.SortPosition <> 1)
+    
+    #ListAddress.SortPosition := 1
+    #ListAddress.SortDirection := Ascending
+    #ListName.SortPosition := 0
+    #ListEmail.SortPosition := 0
+    
+    Else
+    
+    If (#ListAddress.SortDirection = Ascending)
+    
+    #ListAddress.SortDirection := Descending
+    
+    Else
+    
+    #ListAddress.SortPosition := 0
+    
+    #COM_OWNER.Refresh
+    
+    Endif
+    
+    Endif
+    
+    #PopupActions.ClosePopup
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonCreate.Click)
+    
+    #COM_OWNER.Create
+    
+    Endroutine
+    
+    Evtroutine Handling(#PopupActions.Prepare)
+    
+    If (#ListAddress.SortPosition = 1)
+    
+    If (#ListAddress.SortDirection = Ascending)
+    
+    #ButtonSortAddress.Icon := "arrow_downward"
+    
+    Else
+    
+    #ButtonSortAddress.Icon := "arrow_upward"
+    
+    Endif
+    
+    Else
+    
+    #ButtonSortAddress.Icon := ""
+    
+    Endif
+    
+    If (#ListName.SortPosition = 1)
+    
+    If (#ListName.SortDirection = Ascending)
+    
+    #ButtonSortName.Icon := "arrow_downward"
+    
+    Else
+    
+    #ButtonSortName.Icon := "arrow_upward"
+    
+    Endif
+    
+    Else
+    
+    #ButtonSortName.Icon := ""
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#LabelMarkAll.Click)
+    
+    Selectlist Named(#List)
+    
+    #ListDelete.CurrentItem.CheckState := Checked
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#LabelUnMarkAll.Click)
+    
+    Selectlist Named(#List)
+    
+    #ListDelete.CurrentItem.CheckState := Unchecked
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#LabelCancel.Click)
+    
+    #COM_OWNER.StopEdit
+    
+    Endroutine
+    
+    Evtroutine Handling(#LabelBinSelected.Click)
+    
+    Selectlist Named(#List)
+    
+    If (#ListDelete.CurrentItem.CheckState = Checked)
+    
+    Dlt_Entry
+    
+    Endif
+    
+    Endselect
+    
+    If (#List.Items.ItemCount = 0)
+    
+    #COM_OWNER.StopEdit
+    
+    Endif
+    
+    #Alert.ShowAlert
+    
+    Endroutine
+    
+    Evtroutine Handling(#ListSendEmail.Click) Handled(#Handled)
+    
+    Define_Com Class(#xLaunchEmail) Name(#LaunchEmail) Subject("") Body("")
+    
+    #LaunchEmail.addRecipient Email(#xContactEmailAddress)
+    
+    #LaunchEmail.Compose
+    
+    #Handled := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#ListMakeCall.Click) Handled(#Handled)
+    
+    Define_Com Class(#xLaunchPhone) Name(#LaunchPhone)
+    
+    #LaunchPhone.Dial Phonenumber(#xContactMobilePhone)
+    
+    #Handled := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#ListSendMessage.Click) Handled(#Handled)
+    
+    Define_Com Class(#xLaunchSMS) Name(#LaunchSMS) Body("")
+    
+    #LaunchSMS.To := #xContactMobilePhone
+    
+    #LaunchSMS.Compose
+    
+    #Handled := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#ListNotes.Click) Handled(#Handled)
+    
+    #Handled := True
+    
+    #COM_OWNER.ShowNotes
+    
+    Endroutine
+    
+    Evtroutine Handling(#ListAttachment.Click) Handled(#Handled)
+    
+    #Handled := True
+    
+    #COM_OWNER.ShowAttachment
+    
+    Endroutine
+    
+    
+    Evtroutine Handling(#ButtonLoadMore.Click)
+    
+    #ButtonLoadMore.FadeOut( 400 200 False )
+    #COM_OWNER.Refresh
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ScrollChanged)
+    Define_Com Class(#PRIM_NMBR) Name(#ScrollPostition)
+    Define_Com Class(#PRIM_NMBR) Name(#ScrollTotal)
+    
+    #ScrollPostition := #List.VerticalScrollPos
+    #ScrollTotal := ((#List.Items.ItemCount * 88) - #List.Height - 44)
+    
+    If ((#ScrollPostition >= #ScrollTotal))
+    
+    If (*Not #EndofList)
+    
+    #ButtonLoadMore.FadeIn( 300 300 )
+    
+    Endif
+    
+    Else
+    
+    If (#ButtonLoadMore.Visible)
+    
+    #ButtonLoadMore.FadeOut( 400 200 False )
+    
+    Endif
+    
+    Endif
+    
+    Endroutine
+    End_Com
